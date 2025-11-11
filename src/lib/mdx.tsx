@@ -57,12 +57,13 @@ const createComponents = (frontmatter?: Frontmatter) => ({
   strong: (props: any) => <strong className="mb-4" {...props} />,
   hr: (props: any) => <hr className="my-16" {...props} />,
   img: (props: any) => (
-    <Image 
-      className="border my-4" 
-      width={800} 
-      height={600} 
-      alt={props.alt || "Image"} 
-      {...props} 
+    <Image
+      className="border my-4"
+      width={800}
+      height={600}
+      alt={props.alt || "Image"}
+      unoptimized={props.src?.includes('s3.us-west-1.amazonaws.com') || props.src?.includes('amazonaws.com')}
+      {...props}
     />
   ),
   // Custom components available in MDX
