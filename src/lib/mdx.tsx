@@ -10,6 +10,7 @@ import { Highlight, Callout, Anchor, TitleSection, ImageStack, DemoButton } from
 import VideoPlayer from '@/components/VideoPlayer'
 import MarkdownConverter from '@/components/markdown/MarkdownConverter'
 import Image from 'next/image'
+import { shouldSkipOptimization } from '@/lib/imageUtils'
 
 export interface Frontmatter {
   title?: string
@@ -62,7 +63,7 @@ const createComponents = (frontmatter?: Frontmatter) => ({
       width={800}
       height={600}
       alt={props.alt || "Image"}
-      unoptimized={props.src?.includes('s3.us-west-1.amazonaws.com') || props.src?.includes('amazonaws.com')}
+      unoptimized={shouldSkipOptimization(props.src)}
       {...props}
     />
   ),
