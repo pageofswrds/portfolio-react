@@ -10,6 +10,7 @@ import { Highlight, Callout, Anchor, TitleSection, ImageStack, DemoButton } from
 import VideoPlayer from '@/components/VideoPlayer'
 import MarkdownConverter from '@/components/markdown/MarkdownConverter'
 import Image from 'next/image'
+import { shouldSkipOptimization } from '@/lib/imageUtils'
 
 export interface Frontmatter {
   title?: string
@@ -57,12 +58,13 @@ const createComponents = (frontmatter?: Frontmatter) => ({
   strong: (props: any) => <strong className="mb-4" {...props} />,
   hr: (props: any) => <hr className="my-16" {...props} />,
   img: (props: any) => (
-    <Image 
-      className="border my-4" 
-      width={800} 
-      height={600} 
-      alt={props.alt || "Image"} 
-      {...props} 
+    <Image
+      className="border my-4"
+      width={800}
+      height={600}
+      alt={props.alt || "Image"}
+      unoptimized={shouldSkipOptimization(props.src)}
+      {...props}
     />
   ),
   // Custom components available in MDX

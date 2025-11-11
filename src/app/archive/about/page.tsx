@@ -23,6 +23,7 @@ export default function About() {
                         height={0}
                         width={0}
                         sizes="225vw"
+                        unoptimized
                         style={{ width: '100%', height: '100%', objectFit: 'cover', mixBlendMode: 'color-burn' }}
                     />
                 </div>
