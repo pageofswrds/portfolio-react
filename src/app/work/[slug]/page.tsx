@@ -8,6 +8,7 @@ import { renderMDXContent, AnchorData } from "@/lib/mdx";
 import { StickyCard, StickyCardMask } from "@/components/StickyCard";
 import { Sidebar, SidebarNav } from "@/components/Sidebar";
 import { logger } from "@/lib/logger";
+import { PATHS } from "@/lib/constants";
 
 interface PageProps {
   params: Promise<{
@@ -41,9 +42,8 @@ export default async function ArticlePage({ params }: PageProps) {
   if (isMDX) {
     try {
       // Find the actual file to get the full content
-      const articlesFolder = path.join(process.cwd(), "public/articles/work/");
       const fileName = `${slug}.mdx`;
-      const filePath = path.join(articlesFolder, fileName);
+      const filePath = path.join(PATHS.ARTICLES_WORK_FOLDER, fileName);
 
       if (fs.existsSync(filePath)) {
         const fileContent = fs.readFileSync(filePath, "utf8");

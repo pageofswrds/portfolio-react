@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { shouldSkipOptimization } from "@/lib/imageUtils";
+import { CONTENT } from "@/lib/constants";
 import {
   HeadingProps,
   ParagraphProps,
@@ -104,8 +105,10 @@ export const createBaseMarkdownComponents = () => ({
   img: (props: MarkdownImageProps) => (
     <Image
       className={markdownComponentStyles.img}
-      width={props.width ? Number(props.width) : 800}
-      height={props.height ? Number(props.height) : 600}
+      width={props.width ? Number(props.width) : CONTENT.DEFAULT_IMAGE_WIDTH}
+      height={
+        props.height ? Number(props.height) : CONTENT.DEFAULT_IMAGE_HEIGHT
+      }
       alt={props.alt || "Image"}
       src={props.src || ""}
       unoptimized={shouldSkipOptimization(props.src || "")}

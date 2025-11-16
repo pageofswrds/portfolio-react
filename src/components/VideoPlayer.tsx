@@ -16,30 +16,29 @@ interface VideoPlayerProps {
 
 const VideoPlayer: React.FunctionComponent<VideoPlayerProps> = (props) => {
   const [isDesktop, setIsDesktop] = useState(false);
-  const [hasWindow, setHasWindow] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setHasWindow(true);
-      // Check if it's desktop based on screen width
+    setIsMounted(true);
+    // Check if it's desktop based on screen width
+    setIsDesktop(window.innerWidth >= 768);
+
+    // Optional: Add resize listener for responsive behavior
+    const handleResize = () => {
       setIsDesktop(window.innerWidth >= 768);
+    };
 
-      // Optional: Add resize listener for responsive behavior
-      const handleResize = () => {
-        setIsDesktop(window.innerWidth >= 768);
-      };
-
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Prevent hydration mismatch by not rendering until client-side
-  if (!hasWindow) {
+  // During SSR and initial client render, show a placeholder to prevent hydration mismatch
+  if (!isMounted) {
     return (
       <div
         className="player-wrapper card video-player-wrapper my-12"
         data-video-player
+        suppressHydrationWarning
       >
         <div
           style={{
@@ -51,7 +50,7 @@ const VideoPlayer: React.FunctionComponent<VideoPlayerProps> = (props) => {
             justifyContent: "center",
           }}
         >
-          Loading...
+          {/* Empty placeholder to match SSR */}
         </div>
       </div>
     );

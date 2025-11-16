@@ -3,6 +3,7 @@ import fsPromises from "fs/promises";
 import path from "path";
 import { demosConfig } from "./demos-config";
 import { logger } from "./logger";
+import { PATHS } from "./constants";
 
 export type Demo = {
   path: string;
@@ -17,7 +18,7 @@ export type Demo = {
   visible: boolean;
 };
 
-const demosFolder = path.join(process.cwd(), "src/app/demos");
+const demosFolder = PATHS.DEMOS_FOLDER;
 
 const findDemoDirectories = async (dirPath: string): Promise<string[]> => {
   const directories: string[] = [];
