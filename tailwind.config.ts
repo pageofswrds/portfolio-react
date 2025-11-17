@@ -1,25 +1,24 @@
-/** @type {import('tailwindcss').Config} */
-const defaultTheme = require('tailwindcss/defaultTheme')
+import type { Config } from "tailwindcss";
 
-module.exports = {
+const config: Config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   theme: {
     screens: {
       xs: "480px",
-      'little': "490px",
+      little: "490px",
       sm: "640px",
       md: "768px",
       lg: "1024px",
       xl: "1280px",
-      '2xl': '1536px',
-      'smmax': {'max':'639px'},
-      'xsmax': {'max':'479px'}
+      "2xl": "1536px",
+      smmax: { max: "639px" },
+      xsmax: { max: "479px" },
     },
     container: {
       center: true,
@@ -30,30 +29,25 @@ module.exports = {
         md: "768px",
         lg: "1024px",
         xl: "1280px",
-        '2xl': '1536px',
+        "2xl": "1536px",
       },
     },
     fontFamily: {
-      serif: ['var(--font-serif-theme)'],
-      mono: ['var(--font-mono-theme)'],
+      serif: ["var(--font-serif-theme)"],
+      mono: ["var(--font-mono-theme)"],
+      fraktion: ["var(--font-fraktion)"],
     },
     fontSize: {
-      xs: ['0.813rem', { lineHeight: '1rem', letterSpacing: '0.02rem' }],
-      sm: ['1rem', { lineHeight: '1.5rem', letterSpacing: '0.02rem' }],
-      md: ['1.25rem', { lineHeight: '2rem', letterSpacing: '0.02rem' }],
-      lg: ['1.625rem', { lineHeight: '2.625rem', letterSpacing: '0.02rem' }],
-      xl: ['2.063rem', { lineHeight: '3.25rem', letterSpacing: '0.02rem' }],
-      btn: {
-        xs: ['0.688rem', { lineHeight: '1rem', letterSpacing: '0.02rem' }],
-        sm: ['0.813rem', { lineHeight: '1.25rem', letterSpacing: '0.02rem' }],
-        md: ['0.938rem', { lineHeight: '1.5rem', letterSpacing: '0.02rem' }],
-        lg: ['1rem', { lineHeight: '1.5rem', letterSpacing: '0.02rem' }],
-      },
+      xs: ["0.813rem", { lineHeight: "1rem", letterSpacing: "0.02rem" }],
+      sm: ["1rem", { lineHeight: "1.5rem", letterSpacing: "0.02rem" }],
+      md: ["1.25rem", { lineHeight: "2rem", letterSpacing: "0.02rem" }],
+      lg: ["1.625rem", { lineHeight: "2.625rem", letterSpacing: "0.02rem" }],
+      xl: ["2.063rem", { lineHeight: "3.25rem", letterSpacing: "0.02rem" }],
     },
     fontWeight: {
-      '400': '400',
-      '500': '500',
-      '600': '600',
+      "400": "400",
+      "500": "500",
+      "600": "600",
     },
     extend: {
       colors: {
@@ -136,7 +130,6 @@ module.exports = {
             disabled: "hsl(var(--brand) / 0.15)",
           },
         },
-
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -148,12 +141,12 @@ module.exports = {
       // },
       keyframes: {
         "accordion-down": {
-          from: { height: 0 },
+          from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
+          to: { height: "0" },
         },
       },
       animation: {
@@ -167,10 +160,17 @@ module.exports = {
     },
   },
   plugins: [
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     require("tailwindcss-animate"),
-    function({ addVariant }: { addVariant: (name: string, selector: string) => void }) {
-      addVariant('theme-forest', '[data-theme="forest"] &')
-      addVariant('theme-opalite', '[data-theme="opalite"] &')
-    }
+    function ({
+      addVariant,
+    }: {
+      addVariant: (name: string, selector: string) => void;
+    }) {
+      addVariant("theme-forest", '[data-theme="forest"] &');
+      addVariant("theme-opalite", '[data-theme="opalite"] &');
+    },
   ],
-}
+};
+
+export default config;
