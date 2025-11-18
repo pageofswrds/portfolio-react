@@ -47,6 +47,9 @@ export default function MarkingMenuPage() {
   const [selectedColor, setSelectedColor] = useState(
     INITIAL_DIRECTION_COLORS.N.value
   );
+  const [selectedColorName, setSelectedColorName] = useState(
+    INITIAL_DIRECTION_COLORS.N.name
+  );
   const [selectedDirection, setSelectedDirection] = useState<Direction>("N");
   const [directionColors, setDirectionColors] = useState(
     INITIAL_DIRECTION_COLORS
@@ -56,6 +59,7 @@ export default function MarkingMenuPage() {
     const direction = itemId as Direction;
     setSelectedDirection(direction);
     setSelectedColor(directionColors[direction].value);
+    setSelectedColorName(directionColors[direction].name);
   };
 
   const assignColorToSlot = useCallback(
@@ -112,19 +116,17 @@ export default function MarkingMenuPage() {
             </svg>
 
             <div className="text-center">
-              <div className="text-2xl font-bold mb-1">
-                {directionColors[selectedDirection].name}
-              </div>
-              <div className="font-mono text-sm text-gray-500">
+              <div className="text-2xl font-bold mb-1">{selectedColorName}</div>
+              <div className="font-mono text-sm text-tx-secondary">
                 {selectedDirection} • {selectedColor}
               </div>
             </div>
           </div>
 
           {/* Instructions */}
-          <div className="mt-8 rounded bg-gray-50 p-4 text-sm dark:bg-gray-800">
+          <div className="mt-8 rounded bg-bg-primary p-4 text-sm">
             <p className="font-semibold mb-2">How to use:</p>
-            <ul className="space-y-1 text-gray-600 dark:text-gray-400">
+            <ul className="space-y-1 text-tx-body">
               <li>
                 • <strong>Select Color:</strong> Click and hold on menu, drag to
                 select
@@ -150,7 +152,7 @@ export default function MarkingMenuPage() {
       <main className="md:col-span-7">
         <StickyCardMask />
         <StickyCard className="rounded border border-bd-primary bg-bg-secondary">
-          <div className="flex min-h-[600px] flex-col items-center justify-center gap-12 p-8">
+          <div className="flex min-h-[600px] flex-col items-center justify-center gap-12 p-8 md:gap-32 md:pt-48">
             <MarkingMenu
               onSelect={handleSelect}
               config={{
