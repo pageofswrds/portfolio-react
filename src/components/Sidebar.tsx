@@ -1,15 +1,14 @@
-'use client'
+"use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { IconButton } from "./ui/IconButton";
-import { Globe, RefreshDouble, Xmark } from 'iconoir-react';
+import { Globe, RefreshDouble, Xmark } from "iconoir-react";
 import { cn } from "@/lib/utils";
 import { CurrentTime } from "./CurrentTime";
 // import StarIcon from './public/images/star-sm.svg'
-
 
 interface SidebarProps {
   children: React.ReactNode;
@@ -23,41 +22,50 @@ interface SidebarNavProps {
   className?: string;
 }
 
-
 export const Sidebar: React.FC<SidebarProps> = ({ children, className }) => {
   return (
-    <section className={cn("w-full md:w-64 flex-shrink-0 flex flex-col gap-4 md:pt-16 md:h-screen md:sticky md:top-0 self-start", className)}>
-          { children }
+    <section
+      className={cn(
+        "flex w-full flex-shrink-0 flex-col gap-4 self-start md:sticky md:top-0 md:min-h-screen md:w-64 md:pb-8 md:pt-16",
+        className
+      )}
+    >
+      {children}
     </section>
   );
-}
+};
 
-export const SidebarNav: React.FC<SidebarNavProps> = ({ href, breadcrumb, page, className }) => {
+export const SidebarNav: React.FC<SidebarNavProps> = ({
+  href,
+  breadcrumb,
+  page,
+  className,
+}) => {
   const pathname = usePathname();
   const [showTime, setShowTime] = useState(false); // State to toggle between breadcrumbs and time
   const [homeHref, setHomeHref] = useState("/"); // Dynamic home link
 
   // Determine which tab to navigate to based on current page
   useEffect(() => {
-    if (!pathname || pathname === '/') {
-      setHomeHref('/');
+    if (!pathname || pathname === "/") {
+      setHomeHref("/");
       return;
     }
 
-    const pathSegments = pathname.split('/').filter(Boolean);
+    const pathSegments = pathname.split("/").filter(Boolean);
     if (pathSegments.length > 0) {
       const section = pathSegments[0]; // 'work', 'blog', 'demos', etc.
 
       // Map the section to the appropriate tab
-      if (section === 'work' || section === 'blog' || section === 'demos') {
+      if (section === "work" || section === "blog" || section === "demos") {
         setHomeHref(`/?tab=${section}`);
       } else {
         // For other sections, check localStorage or default to '/'
-        if (typeof window !== 'undefined') {
-          const savedTab = localStorage.getItem('activeTab');
-          setHomeHref(savedTab ? `/?tab=${savedTab}` : '/');
+        if (typeof window !== "undefined") {
+          const savedTab = localStorage.getItem("activeTab");
+          setHomeHref(savedTab ? `/?tab=${savedTab}` : "/");
         } else {
-          setHomeHref('/');
+          setHomeHref("/");
         }
       }
     }
@@ -70,12 +78,12 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ href, breadcrumb, page, 
     }
 
     // Show breadcrumbs based on current route
-    if (!pathname || pathname === '/') {
+    if (!pathname || pathname === "/") {
       return <CurrentTime />; // On home page, default to time when showTime is false
     }
 
     // For other pages, build breadcrumb from the pathname
-    const pathSegments = pathname.split('/').filter(Boolean);
+    const pathSegments = pathname.split("/").filter(Boolean);
     if (pathSegments.length === 0) {
       return <CurrentTime />; // fallback for home
     }
@@ -99,31 +107,36 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ href, breadcrumb, page, 
   };
 
   return (
-      <nav className={cn("font-mono text-xs text-tx-button w-full flex gap-2 items-center bg-bg-button rounded-md p-2", className)}>
-        <Link href={homeHref} className="flex items-center gap-2 rounded-sm pr hover:bg-bg-hover hover:text-tx-primary">
-          <IconButton variant="ghostalt" size="sm">
-            <Image 
-              src={'/star-sm-light.svg'}
-              alt="logo"
-              height={16}
-              width={16}
-              // sizes="10vw"
-              // priority
-            />
-            {/* <StarIcon color="text-ic-button" /> */}
-          </IconButton>
-        </Link>
-        <span className="flex-grow">{getDisplayText()}</span>
-
-        <IconButton variant="primary" size="sm" onClick={handleToggle}>
-          <Globe width={16} height={16}/>
+    <nav
+      className={cn(
+        "flex w-full items-center gap-2 rounded-md bg-bg-button p-2 font-mono text-xs text-tx-button",
+        className
+      )}
+    >
+      <Link
+        href={homeHref}
+        className="pr flex items-center gap-2 rounded-sm hover:bg-bg-hover hover:text-tx-primary"
+      >
+        <IconButton variant="ghostalt" size="sm">
+          <Image
+            src={"/star-sm-light.svg"}
+            alt="logo"
+            height={16}
+            width={16}
+            // sizes="10vw"
+            // priority
+          />
+          {/* <StarIcon color="text-ic-button" /> */}
         </IconButton>
+      </Link>
+      <span className="flex-grow">{getDisplayText()}</span>
 
-      </nav>
+      <IconButton variant="primary" size="sm" onClick={handleToggle}>
+        <Globe width={16} height={16} />
+      </IconButton>
+    </nav>
   );
-}
-
-
+};
 
 // export const SidebarNav: React.FC<SidebarNavProps> = ({ href, breadcrumb, page, className }) => {
 //   return (
@@ -139,7 +152,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ href, breadcrumb, page, 
 //       <nav className={cn("font-mono text-sm text-tx-body w-full flex gap-2 items-center bg-bg-primary rounded-md p-2", className)}>
 //         <Link href={href} className="flex items-center gap-2 rounded-sm pr hover:bg-bg-hover hover:text-tx-primary">
 //           <IconButton variant="ghostalt" size="sm">
-//             <Image 
+//             <Image
 //               src={'/star-sm.svg'}
 //               alt="logo"
 //               height={20}
@@ -161,4 +174,3 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ href, breadcrumb, page, 
 //     </nav>
 //   );
 // }
-

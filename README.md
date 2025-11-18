@@ -1,5 +1,16 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Development Setup
+
+**Important:** Install the recommended VS Code extensions (ESLint, Prettier, Tailwind CSS) for auto-formatting on save. This prevents pre-commit hook failures.
+
+1. Open the project in VS Code
+2. Press `Cmd+Shift+P` → `Extensions: Show Recommended Extensions`
+3. Install recommended extensions
+4. Reload VS Code
+
+Files will now auto-fix ESLint issues on save.
+
 ## Getting Started
 
 First, run the development server:
