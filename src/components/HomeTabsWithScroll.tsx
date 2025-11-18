@@ -43,21 +43,25 @@ export default function HomeTabsWithScroll({
   const tabFromUrl = searchParams?.get("tab") || undefined;
 
   const [activeTab, setActiveTab] = useState<TabValue>(() => {
-    // Priority: URL param > localStorage > defaultTab
+    // Priority: URL param > defaultTab
+    // Note: We don't check localStorage here to avoid hydration mismatch
     if (isValidTab(tabFromUrl)) {
       return tabFromUrl;
     }
 
-    // Check localStorage on client-side only
-    if (typeof window !== "undefined") {
-      const savedTab = localStorage.getItem("activeTab");
-      if (savedTab && isValidTab(savedTab)) {
-        return savedTab;
-      }
-    }
-
     return defaultTab as TabValue;
   });
+
+  // Hydrate from localStorage after mount (client-side only)
+  useEffect(() => {
+    // Only apply localStorage if there's no URL param
+    if (!tabFromUrl && typeof window !== "undefined") {
+      const savedTab = localStorage.getItem("activeTab");
+      if (savedTab && isValidTab(savedTab)) {
+        setActiveTab(savedTab);
+      }
+    }
+  }, []); // Empty deps - only run once on mount
 
   // Update localStorage and URL when tab changes
   const handleTabValueChange = (value: string) => {
