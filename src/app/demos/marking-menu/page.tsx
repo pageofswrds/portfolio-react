@@ -199,7 +199,7 @@ export default function MarkingMenuPage() {
             >
               {/* Trigger Button */}
               <MarkingMenuTrigger asChild>
-                <button className="font-semibold rounded-lg bg-blue-600 px-8 py-4 font-fraktion text-white shadow-lg transition-all hover:scale-105 hover:bg-blue-700 hover:shadow-xl active:scale-95">
+                <button className="marking-menu-trigger font-semibold rounded-lg bg-blue-600 px-8 py-4 font-fraktion text-white shadow-lg transition-all hover:scale-105 hover:bg-blue-700 hover:shadow-xl active:scale-95">
                   Open Color Menu
                 </button>
               </MarkingMenuTrigger>
@@ -415,7 +415,7 @@ function ColorChipMenu({
     >
       <MarkingMenuTrigger asChild>
         <button
-          className="aspect-square rounded-lg shadow-md transition-all hover:scale-110 active:scale-95"
+          className="marking-menu-trigger aspect-square rounded-lg shadow-md transition-all hover:scale-110 active:scale-95"
           style={{
             backgroundColor: color.value,
           }}

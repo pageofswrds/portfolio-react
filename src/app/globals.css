@@ -22,11 +22,11 @@ body {
     --light-600: 36 14% 50%;
     --light-900: 36 14% 15%;
     --brand: 101 21% 45%;
- 
+
     /* Theme fonts */
     --font-serif-theme: var(--font-louize);
     --font-mono-theme: var(--font-fraktion);
- 
+
     --radius: 0.5rem;
 
     /* card upper corner shadow */
@@ -47,7 +47,7 @@ body {
     --light-600: 36 14% 50%;
     --light-900: 36 14% 15%;
     --brand: 101 21% 45%;
-    
+
     /* Forest theme fonts */
     --font-serif-theme: var(--font-louize);
     --font-mono-theme: var(--font-fraktion);
@@ -66,7 +66,7 @@ body {
     --light-600: 210 25% 55%;
     --light-900: 210 25% 20%;
     --brand: 214 88% 55%;
-    
+
     /* Opalite theme fonts */
     --font-serif-theme: var(--font-exposure);
     --font-mono-theme: var(--font-pressura-mono);
@@ -74,7 +74,7 @@ body {
     /* card upper corner shadow */
     --box-clip: rgb(242, 233, 217);
   }
- 
+
   .dark {
     --dark-800: 96 4% 24%;
     --dark-900: 96 4% 16%;
@@ -89,7 +89,9 @@ body {
 
 @layer components {
   .elevation-1 {
-    box-shadow: 0px 0px 4px -2px rgba(24, 39, 75, 0.08), 0px 0px 4px -2px rgba(24, 39, 75, 0.12);
+    box-shadow:
+      0px 0px 4px -2px rgba(24, 39, 75, 0.08),
+      0px 0px 4px -2px rgba(24, 39, 75, 0.12);
   }
 
   .elevation-big {
@@ -122,7 +124,7 @@ body {
     height: auto;
   }
   .react-player {
-    padding-top: 56.25%; 
+    padding-top: 56.25%;
     position: relative;
   }
 
@@ -131,21 +133,23 @@ body {
   }
 
   .corner-shadow {
-    box-shadow: 0 0 12px 0 var(--box-shadow-04),0 0 0 48px var(--box-clip);
+    box-shadow:
+      0 0 12px 0 var(--box-shadow-04),
+      0 0 0 48px var(--box-clip);
   }
 
   /* Article content layout - constrain text but allow media to break out */
   .prose-content {
     /* Text content gets max-width but media breaks out */
   }
-  
+
   .prose-content > * {
     /* Default: all content respects the max-width */
     max-width: 56rem; /* 896px - same as max-w-4xl */
     margin-left: auto;
     margin-right: auto;
   }
-  
+
   .prose-content img,
   .prose-content video,
   .prose-content iframe,
@@ -156,12 +160,27 @@ body {
     margin-left: 0;
     margin-right: 0;
   }
-  
+
   .prose-content .video-player-wrapper {
     /* Ensure VideoPlayer component also breaks out */
     max-width: none;
     width: 100%;
     margin-left: 0;
     margin-right: 0;
+  }
+
+  .marking-menu-trigger {
+    /* Prevent text selection on iOS and other browsers */
+    user-select: none;
+    -webkit-user-select: none;
+
+    /* Prevent iOS callout menu (copy/paste popup) */
+    -webkit-touch-callout: none;
+
+    /* Prevent tap highlight on iOS */
+    -webkit-tap-highlight-color: transparent;
+
+    /* Make it clear this is interactive */
+    touch-action: none;
   }
 }
