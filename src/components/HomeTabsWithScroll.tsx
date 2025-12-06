@@ -17,11 +17,11 @@ import {
 import { Article } from "@/lib/articles";
 import { Demo } from "@/lib/demos";
 import { logger } from "@/lib/logger";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 
-const SpinningCube = dynamic(() => import("@/components/3d/SpinningCube"), {
-  ssr: false,
-});
+// const SpinningCube = dynamic(() => import("@/components/3d/SpinningCube"), {
+//   ssr: false,
+// });
 
 interface TabsWithScrollProps {
   articles: Article[];
