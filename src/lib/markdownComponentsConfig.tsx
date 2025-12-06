@@ -39,7 +39,7 @@ export const markdownComponentStyles = {
   em: "mb-4",
   strong: "mb-4",
   hr: "my-16",
-  img: "border my-4",
+  img: "my-4",
 };
 
 /**
