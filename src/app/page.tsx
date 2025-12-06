@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Page, Linkedin } from "iconoir-react";
 import { Suspense } from "react";
 // import '@/app/styles.css'
 import "@/lib/transform.css";
@@ -19,7 +21,7 @@ export default async function Home() {
 
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
-      <section className="flex flex-col gap-4 self-start md:sticky md:top-0 md:col-span-4 md:h-screen md:py-16">
+      <section className="flex flex-col gap-0 self-start md:sticky md:top-0 md:col-span-4 md:h-screen md:py-16">
         <Image
           src={"/images/star-sketch.png"}
           alt="logo"
@@ -30,12 +32,34 @@ export default async function Home() {
           className=""
         />
         <Link href="/">
-          <h1 className="font-serif text-lg text-tx">david schultz</h1>
+          <h1 className="mt-4 font-serif text-xl text-tx">david schultz</h1>
         </Link>
-        <p className="flex-grow">designer who codes</p>
+        <div className="flex-grow">
+          <p className="text-md">(designer who codes)</p>
+          <div className="mt-4 flex gap-2 md:flex-col md:items-start">
+            <Button variant="secondary" size="md" asChild>
+              <a
+                href="https://www.linkedin.com/in/schultzdavidg/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Linkedin className="mr-1 h-4 w-4" /> LinkedIn
+              </a>
+            </Button>
+            <Button variant="secondary" size="md" asChild>
+              <a
+                href="https://schultzdavidg-portfolio.s3.us-west-1.amazonaws.com/files/davidschultz-resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Page className="mr-1 h-4 w-4" /> Resume
+              </a>
+            </Button>
+          </div>
+        </div>
         {/* <ThemeButtons /> */}
         {/* I'm feeling lucky button */}
-        <p className="">© 2025</p>
+        <p className="mt-4">© 2025</p>
       </section>
 
       <main className="md:col-span-8">
