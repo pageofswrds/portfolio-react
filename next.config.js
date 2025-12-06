@@ -45,7 +45,12 @@ const nextConfig = {
       },
     ],
   },
-  transpilePackages: ["three"],
+  transpilePackages: [
+    "three",
+    "@react-three/fiber",
+    "@react-three/drei",
+    "@react-three/postprocessing",
+  ],
 
   // ADDED the below to try and fix deserialization performance;
   // https://stackoverflow.com/questions/78471919/how-to-debug-webpack-cache-packfilecachestrategy-serializing-big-strings-in

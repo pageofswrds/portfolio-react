@@ -13,7 +13,7 @@ export const demosConfig = {
     subtitle: "Interactive radial menu demonstration",
     year: "2025",
     thumbnail:
-      "https://schultzdavidg-portfolio.s3.us-west-1.amazonaws.com/images/marking-menu/marking-menu-cover.jpg",
+      "https://schultzdavidg-portfolio.s3.us-west-1.amazonaws.com/images/markingmenu-thumbnail.png",
     order: 2,
     visible: true,
   },

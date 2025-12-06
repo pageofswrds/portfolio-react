@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import clsx from "clsx";
+import Image from "next/image";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArticleThumbnail } from "@/components/organisms/ArticleThumbnail";
@@ -16,6 +17,11 @@ import {
 import { Article } from "@/lib/articles";
 import { Demo } from "@/lib/demos";
 import { logger } from "@/lib/logger";
+import dynamic from "next/dynamic";
+
+const SpinningCube = dynamic(() => import("@/components/3d/SpinningCube"), {
+  ssr: false,
+});
 
 interface TabsWithScrollProps {
   articles: Article[];
@@ -115,9 +121,7 @@ export default function HomeTabsWithScroll({
       <StickyCardHeader className="sticky top-[-81px] z-0">
         {/* <h2 className="text-lg pl-4 pt-4">Stuff</h2> */}
         <div className="ml-4 mt-4 p-4 pb-0">
-          <p className="text-lg italic text-tx-body">
-            Everybody just wants to be seen
-          </p>
+          <p className="text-lg italic text-tx-body">Hello from Seattle, WA</p>
           <Tooltip>
             <TooltipTrigger asChild>
               <CurrentTime className="font-mono text-sm text-tx-secondary" />
@@ -197,77 +201,66 @@ export default function HomeTabsWithScroll({
           value="about"
           className="m-0 flex max-w-[900px] flex-col items-center px-6"
         >
+          <div className="mt-4 w-full overflow-clip rounded-md">
+            <Image
+              src="https://schultzdavidg-portfolio.s3.us-west-1.amazonaws.com/images/xa2-bnw.jpg"
+              alt="David Schultz"
+              width={900}
+              height={600}
+              className="h-auto w-full object-cover"
+              unoptimized
+            />
+          </div>
           <div className="my-4 flex w-full flex-col gap-3 rounded p-4 text-md">
-            <p className="text-tx-body">I design both interfaces and code.</p>
+            <p className="text-tx-body">Hellooooooo</p>
             <p className="text-tx-body">
-              I consider myself, first-and-foremost, a designer. I graduated
+              I&apos;m a designer/developer based in Seattle, WA. I graduated
               from the University of Washington&apos;s Interaction Design
               program in 2024, where I ultimately focused on sharpening my
               design process. This involved extensive user research&mdash;both
-              academically, and professionally.
+              academically and professionally.
             </p>
             <p className="text-tx-body">
               But historically, I&apos;ve spent a lot of time developing. I have
               extensive experience in frontend technologies, my bread-and-butter
-              being Next.js + TailwindCSS. Recently, I&apos;ve developed
-              proficiency in Rust and Swift. I&apos;ve also worked with 3D
-              technologies: namely, prototyping with extended reality (XR) in C#
-              (Unity + Meta&apos;s XR SDK). My niche in XR focuses on
-              hand/gestural interactions&mdash;i.e., designing for a future
-              without traditional controllers.
+              being Next.js + TailwindCSS. More recently, I&apos;ve been
+              building in Rust + Swift.
             </p>
+            {/* <SpinningCube className="my-8 h-48 w-full rounded-md" /> */}
             <p className="text-tx-body">
-              When I was in high school, I was introduced to computer science,
-              and later on, &ldquo;Special Topics&rdquo; &mdash; a class
-              dedicated to data structures and algorithms (taught by Microsoft
-              TEALS). Programming came very naturally to me, and my teachers
-              were extremely effective at helping us build a deep gnosis for
-              efficent computing. This set a strong technical foundation for
-              &ldquo;left brain&rdquo; activity (in other words, engineering).
+              I&apos;ve also worked with 3D technologies: namely, prototyping
+              with extended reality (XR) in C# (Unity + Meta&apos;s XR SDK). My
+              niche in XR focuses on hand/gestural interactions&mdash;i.e.,
+              designing for a future without traditional controllers.
             </p>
+
+            <Link
+              className={clsx("my-4")}
+              href="https://www.davidschultz.co/work/kairos#communication"
+            >
+              <Image
+                src="https://schultzdavidg-portfolio.s3.us-west-1.amazonaws.com/images/kairos/managing_visual_complexity.png"
+                alt="David Schultz"
+                width={900}
+                height={600}
+                className="h-auto w-full object-cover "
+                unoptimized
+              />
+            </Link>
             <p className="text-tx-body">
-              But after being denied to UW&apos;s (very competitive) CSE
-              program, I found myself forced to engage with my &ldquo;right
-              brain&rdquo;. In this, I&apos;ve come to understand that design is
-              the intersection between art and engineering&mdash;and this blend
-              guides everything I do. My calling is to build products for
-              end-users, and this entails picking up any hard skill that serves
-              that end.
+              My current focus is on{" "}
+              <Link className={clsx("text-brand")} href="https://zojer.studio">
+                Kairōs
+              </Link>
+              , an iOS app I have been building. More to the point, I have been
+              making extensive use of Claude Code, and am blown away by its
+              abilities. It is a complete game changer for product design,
+              simply because of how fast it has become to iterate in a live
+              environment.
             </p>
+
             <p className="text-tx-body">
-              I believe my greatest strength is that I do for the sake of
-              doing&mdash;and in trying to do the best I can, I&apos;ve
-              developed a strong sense for where my energy is most valuable.
-              This means walking the line of expansion and contraction;
-              confidence is knowing what you don&apos;t know. I seek out
-              information when it&apos;s needed, and shift my focus to action
-              once I&apos;ve accumulated enough. (e.g. knowing when I need to do
-              user research, and when I&apos;ve learned enough.)
-            </p>
-            <p className="text-tx-body">
-              Mostly recently, I have been building{" "}
-              <a
-                href="https://www.instagram.com/zojer.studio/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:underline dark:text-blue-400"
-              >
-                Kairos
-              </a>
-              , a professional astrology tool that intends to outclass all
-              others, starting from a foundation of strong UX—not features. (The
-              features will arise naturally, especially considering my{" "}
-              <a
-                href="https://www.davidschultz.co/blog/rapid-refactoring"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:underline dark:text-blue-400"
-              >
-                development process
-              </a>
-              .) I&apos;v been getting heavy use out of Claude Code, and have a
-              lot of thoughts on how this technology will shape the world,
-              especially given the current social climate. Blog post on those
-              topics later!
+              I am open for work, so if you have ideas -- please reach out!
             </p>
           </div>
         </TabsContent>
