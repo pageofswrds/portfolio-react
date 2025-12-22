@@ -1,8 +1,7 @@
-import { is } from '@react-three/fiber/dist/declarations/src/core/utils';
-import Image from 'next/image';
-import Link from 'next/link';
+import Image from "next/image";
+import Link from "next/link";
 
-export default function Logo ({ isInverted = false }: { isInverted?: boolean}) {
+export default function Logo({ isInverted = false }: { isInverted?: boolean }) {
   let logoSrc = "/logo.svg";
 
   if (isInverted) {
@@ -19,4 +18,4 @@ export default function Logo ({ isInverted = false }: { isInverted?: boolean}) {
       />
     </Link>
   );
-};
+}

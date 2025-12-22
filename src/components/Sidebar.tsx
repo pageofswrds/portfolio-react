@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { IconButton } from "./ui/IconButton";
-import { Globe, RefreshDouble, Xmark } from "iconoir-react";
+import { Globe } from "iconoir-react";
 import { cn } from "@/lib/utils";
 import { CurrentTime } from "./CurrentTime";
 // import StarIcon from './public/images/star-sm.svg'

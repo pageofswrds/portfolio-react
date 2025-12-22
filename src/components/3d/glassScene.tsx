@@ -1,25 +1,14 @@
 import "@/app/styles.css";
-import dynamic from "next/dynamic";
-import BackgroundSetter from "@/lib/setbg";
-import SiteBar from "@/components/ui/custom/SiteBar";
 
-import { useRef, useState, useEffect, Suspense, useMemo } from "react";
+import { useRef, useState, Suspense, useMemo } from "react";
 import * as THREE from "three";
-import { Mesh, Euler } from "three";
+import { Mesh } from "three";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import {
   useGLTF,
-  OrbitControls,
   Environment,
-  Text,
-  Text3D,
   MeshTransmissionMaterial,
-  OrthographicCamera,
 } from "@react-three/drei";
-import { Orbit } from "next/font/google";
-import { useControls } from "leva";
-import { ChromaticAberration } from "@react-three/postprocessing";
-import { EffectComposer, N8AO, SMAA } from "@react-three/postprocessing";
 
 export default function GlassScene() {
   return (
@@ -62,8 +51,9 @@ function Model() {
   ];
   const planeRot = [new THREE.Euler(0, 0, 0), new THREE.Euler(-1.3, 0, 0.75)];
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { nodes } = useGLTF("./models/torus.glb") as any;
+  const { nodes } = useGLTF("./models/torus.glb") as unknown as {
+    nodes: Record<string, THREE.Mesh>;
+  };
   // const { nodes } = useGLTF('./models/poly.glb')
   const { viewport } = useThree();
 
