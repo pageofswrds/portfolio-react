@@ -26,7 +26,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ children, className }) => {
   return (
     <section
       className={cn(
-        "flex w-full flex-shrink-0 flex-col gap-4 self-start md:sticky md:top-0 md:min-h-screen md:w-64 md:pb-8 md:pt-16",
+        "flex w-full flex-shrink-0 flex-col gap-4 self-start md:sticky md:top-0 md:min-h-screen md:w-64 md:pt-16 md:pb-8",
         className
       )}
     >
@@ -109,13 +109,13 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   return (
     <nav
       className={cn(
-        "flex w-full items-center gap-2 rounded-md bg-bg-button p-2 font-mono text-xs text-tx-button",
+        "bg-bg-button text-tx-button flex w-full items-center gap-2 rounded-md p-2 font-mono text-xs",
         className
       )}
     >
       <Link
         href={homeHref}
-        className="pr flex items-center gap-2 rounded-sm hover:bg-bg-hover hover:text-tx-primary"
+        className="pr hover:bg-bg-hover hover:text-tx-primary flex items-center gap-2 rounded-xs"
       >
         <IconButton variant="ghostalt" size="sm">
           <Image
@@ -166,7 +166,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
 
 //         <span className="text-ic-primary">/</span>
 
-//         <Link href={href} className="flex items-center gap-2 rounded-sm hover:bg-bg-hover hover:text-tx-primary">
+//         <Link href={href} className="flex items-center gap-2 rounded-xs hover:bg-bg-hover hover:text-tx-primary">
 //           <span> {breadcrumb} </span>
 //         </Link>
 //       <span className="text-ic-primary">/</span>

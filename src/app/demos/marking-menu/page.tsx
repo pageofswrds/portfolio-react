@@ -79,12 +79,12 @@ export default function MarkingMenuPage() {
           href={"/?tab=demos"}
           breadcrumb={"demos"}
           page={"marking-menu"}
-          className="top-6 shadow-sm"
+          className="top-6 shadow-xs"
         />
 
         {/* Controls Section */}
-        <div className="rounded border border-bd-primary bg-bg-secondary p-6">
-          <h3 className="font-semibold mb-6 text-lg">Selected Color</h3>
+        <div className="border-bd-primary bg-bg-secondary rounded border p-6">
+          <h3 className="mb-6 text-lg font-semibold">Selected Color</h3>
 
           {/* SVG that changes color */}
           <div className="flex flex-col items-center gap-4">
@@ -113,17 +113,17 @@ export default function MarkingMenuPage() {
             </svg>
 
             <div className="text-center">
-              <div className="text-2xl font-bold mb-1">{selectedColorName}</div>
-              <div className="font-mono text-sm text-tx-secondary">
+              <div className="mb-1 text-2xl font-bold">{selectedColorName}</div>
+              <div className="text-tx-secondary font-mono text-sm">
                 {selectedDirection} • {selectedColor}
               </div>
             </div>
           </div>
 
           {/* Instructions */}
-          <div className="mt-8 rounded bg-bg-primary p-4 text-sm">
-            <p className="font-semibold mb-2">How to use:</p>
-            <ul className="space-y-1 text-tx-body">
+          <div className="bg-bg-primary mt-8 rounded p-4 text-sm">
+            <p className="mb-2 font-semibold">How to use:</p>
+            <ul className="text-tx-body space-y-1">
               <li>
                 • <strong>Select Color:</strong> Click and hold on menu, drag to
                 select
@@ -146,9 +146,9 @@ export default function MarkingMenuPage() {
         </div>
 
         {/* Package Info Card - Visible on md and up */}
-        <div className="hidden rounded border border-bd-primary bg-bg-secondary p-6 md:block">
-          <h3 className="font-semibold mb-4 text-lg">React Marking Menu</h3>
-          <p className="mb-6 text-sm text-tx-secondary">
+        <div className="border-bd-primary bg-bg-secondary hidden rounded border p-6 md:block">
+          <h3 className="mb-4 text-lg font-semibold">React Marking Menu</h3>
+          <p className="text-tx-secondary mb-6 text-sm">
             A React library for creating radial context menus with pointer and
             keyboard support.
           </p>
@@ -157,7 +157,7 @@ export default function MarkingMenuPage() {
               href="https://www.npmjs.com/package/@react-marking-menu/core"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold flex items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-3 text-sm text-white transition-all hover:bg-red-700 hover:shadow-lg"
+              className="flex items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-red-700 hover:shadow-lg"
             >
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M0 7.334v8h6.666v1.332H5.334V18H12v-1.334H9.334v-1.332h12.666V7.334H0zm6.666 6.664H5.334v-4H3.999v4H1.335V8.667h5.331v5.331zm4 0v1.336H8.001V8.667h5.334v5.332h-2.669v-.001zm12.001 0h-1.33v-4h-1.336v4h-1.335v-4h-1.33v4h-2.671V8.667h8.002v5.331zM10.665 10H12v2.667h-1.335V10z" />
@@ -168,7 +168,7 @@ export default function MarkingMenuPage() {
               href="https://github.com/pageofswrds/react-marking-menu"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold flex items-center justify-center gap-2 rounded-lg border border-bd-primary bg-bg-primary px-4 py-3 text-sm text-tx-primary transition-all hover:bg-bg-hover hover:shadow-md"
+              className="border-bd-primary bg-bg-primary text-tx-primary hover:bg-bg-hover flex items-center justify-center gap-2 rounded-lg border px-4 py-3 text-sm font-semibold transition-all hover:shadow-md"
             >
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                 <path
@@ -185,7 +185,7 @@ export default function MarkingMenuPage() {
 
       <main className="pb-12 md:col-span-7">
         <StickyCardMask />
-        <StickyCard className="rounded border border-bd-primary bg-bg-secondary">
+        <StickyCard className="border-bd-primary bg-bg-secondary rounded border">
           <div className="flex min-h-[600px] flex-col items-center justify-center gap-12 p-8 pb-12 md:gap-32 md:pt-48">
             <MarkingMenu
               onSelect={handleSelect}
@@ -199,7 +199,7 @@ export default function MarkingMenuPage() {
             >
               {/* Trigger Button */}
               <MarkingMenuTrigger asChild>
-                <button className="marking-menu-trigger font-semibold rounded-lg bg-blue-600 px-8 py-4 font-fraktion text-white shadow-lg transition-all hover:scale-105 hover:bg-blue-700 hover:shadow-xl active:scale-95">
+                <button className="marking-menu-trigger font-fraktion rounded-lg bg-blue-600 px-8 py-4 font-semibold text-white shadow-lg transition-all hover:scale-105 hover:bg-blue-700 hover:shadow-xl active:scale-95">
                   Open Color Menu
                 </button>
               </MarkingMenuTrigger>
@@ -253,9 +253,9 @@ export default function MarkingMenuPage() {
         </StickyCard>
 
         {/* Package Info Card - Visible on sm and below */}
-        <div className="mt-8 w-full rounded-lg border border-bd-primary bg-bg-secondary p-6 md:hidden">
-          <h3 className="font-semibold mb-4 text-lg">React Marking Menu</h3>
-          <p className="mb-6 text-sm text-tx-secondary">
+        <div className="border-bd-primary bg-bg-secondary mt-8 w-full rounded-lg border p-6 md:hidden">
+          <h3 className="mb-4 text-lg font-semibold">React Marking Menu</h3>
+          <p className="text-tx-secondary mb-6 text-sm">
             A React library for creating radial context menus with pointer and
             keyboard support.
           </p>
@@ -264,7 +264,7 @@ export default function MarkingMenuPage() {
               href="https://www.npmjs.com/package/@react-marking-menu/core"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold flex items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-3 text-sm text-white transition-all hover:bg-red-700 hover:shadow-lg"
+              className="flex items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-red-700 hover:shadow-lg"
             >
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M0 7.334v8h6.666v1.332H5.334V18H12v-1.334H9.334v-1.332h12.666V7.334H0zm6.666 6.664H5.334v-4H3.999v4H1.335V8.667h5.331v5.331zm4 0v1.336H8.001V8.667h5.334v5.332h-2.669v-.001zm12.001 0h-1.33v-4h-1.336v4h-1.335v-4h-1.33v4h-2.671V8.667h8.002v5.331zM10.665 10H12v2.667h-1.335V10z" />
@@ -275,7 +275,7 @@ export default function MarkingMenuPage() {
               href="https://github.com/pageofswrds/react-marking-menu"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold flex items-center justify-center gap-2 rounded-lg border border-bd-primary bg-bg-primary px-4 py-3 text-sm text-tx-primary transition-all hover:bg-bg-hover hover:shadow-md"
+              className="border-bd-primary bg-bg-primary text-tx-primary hover:bg-bg-hover flex items-center justify-center gap-2 rounded-lg border px-4 py-3 text-sm font-semibold transition-all hover:shadow-md"
             >
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                 <path
@@ -369,7 +369,7 @@ function ColorSlice({
 
         {/* Label */}
         <div
-          className="font-semibold rounded px-2 py-1 text-sm"
+          className="rounded px-2 py-1 text-sm font-semibold"
           style={{
             color: "white",
             backgroundColor: "rgba(0,0,0,0.6)",
@@ -465,14 +465,14 @@ function ColorPalette({ onColorAssign, directionColors }: ColorPaletteProps) {
   return (
     <div className="w-full max-w-2xl">
       <div className="mb-4 text-center">
-        <h3 className="font-semibold mb-1 text-lg">Color Palette</h3>
+        <h3 className="mb-1 text-lg font-semibold">Color Palette</h3>
         <p className="text-sm text-gray-600 dark:text-gray-400">
           Click and hold on a color to assign it to a menu slot
         </p>
       </div>
 
       {/* 3x4 Color Grid with Marking Menus */}
-      <div className="grid grid-cols-4 gap-3 rounded-lg border border-bd-primary bg-bg-primary p-4">
+      <div className="border-bd-primary bg-bg-primary grid grid-cols-4 gap-3 rounded-lg border p-4">
         {COLOR_PALETTE.map((color) => (
           <ColorChipMenu
             key={color.value}
@@ -584,7 +584,7 @@ function DirectionIndicator({
 
         {/* Direction Label */}
         <div
-          className="font-semibold rounded px-1.5 py-0.5 text-xs"
+          className="rounded px-1.5 py-0.5 text-xs font-semibold"
           style={{
             color: "white",
             backgroundColor: "rgba(0,0,0,0.7)",

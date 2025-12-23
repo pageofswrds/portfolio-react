@@ -16,7 +16,7 @@ export default function Arboretum() {
             href={"/?tab=demos"}
             breadcrumb={"demos"}
             page={"arboretum"}
-            className="top-6 shadow-sm"
+            className="top-6 shadow-xs"
           />
           <OverviewFilterCard />
           <CurrentSelectionCard />{" "}
@@ -25,7 +25,7 @@ export default function Arboretum() {
 
         <main className="md:col-span-7">
           <StickyCardMask />
-          <StickyCard className="rounded border border-bd-primary bg-bg-secondary">
+          <StickyCard className="border-bd-primary bg-bg-secondary rounded border">
             <ArboretumVisualizer />
           </StickyCard>
         </main>

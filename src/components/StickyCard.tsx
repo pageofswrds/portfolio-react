@@ -1,10 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { IconButton } from "./ui/IconButton";
-import { NavArrowLeft } from 'iconoir-react';
+import { NavArrowLeft } from "iconoir-react";
 import { cn } from "@/lib/utils";
-
-
 
 interface StickyCardProps {
   children: React.ReactNode;
@@ -20,56 +18,95 @@ interface StickyCardNavProps {
 
 export function StickyCardMask() {
   return (
-    <section id="mask" className="w-[calc(100%)] sticky top-0 flex z-10 min-h-6 rounded-md">
-      <div id="cornerLeft" className="top-3 h-[36px] w-[36px] overflow-hidden left-[-12px] absolute z-10 pointer-events-none">
-        <div className="h-[48px] w-[48px] left-[12px] top-[12px] absolute border border-bd-primary border-l-0 rounded-md corner-shadow"></div>
+    <section
+      id="mask"
+      className="sticky top-0 z-10 flex min-h-6 w-[calc(100%)] rounded-md"
+    >
+      <div
+        id="cornerLeft"
+        className="pointer-events-none absolute top-3 left-[-12px] z-10 h-[36px] w-[36px] overflow-hidden"
+      >
+        <div className="border-bd-primary corner-shadow absolute top-[12px] left-[12px] h-[48px] w-[48px] rounded-md border border-l-0"></div>
       </div>
-      <div className="top-3 h-[13px] w-[calc(100%-48px)] absolute border-b border-bd-primary left-6 z-0 "/>
-      <div id="cornerRight" className="top-3 h-[36px] w-[36px] overflow-hidden right-[-12px] absolute z-10 pointer-events-none">
-        <div className="h-[48px] w-[48px] right-[12px] top-[12px] absolute border border-bd-primary border-r-0 rounded-md corner-shadow"></div>
+      <div className="border-bd-primary absolute top-3 left-6 z-0 h-[13px] w-[calc(100%-48px)] border-b" />
+      <div
+        id="cornerRight"
+        className="pointer-events-none absolute top-3 right-[-12px] z-10 h-[36px] w-[36px] overflow-hidden"
+      >
+        <div className="border-bd-primary corner-shadow absolute top-[12px] right-[12px] h-[48px] w-[48px] rounded-md border border-r-0"></div>
       </div>
 
-      <div className="h-6 w-full z-1 absolute top-0 bg-bg-base "/>
+      <div className="bg-bg-base absolute top-0 z-1 h-6 w-full" />
     </section>
   );
 }
 
-export const StickyCard: React.FC<StickyCardProps> = ({ children, className }) => {
+export const StickyCard: React.FC<StickyCardProps> = ({
+  children,
+  className,
+}) => {
   // Convert children to array and check if we have exactly 2 elements
   const childrenArray = React.Children.toArray(children);
   const hasHeader = childrenArray.length === 2;
 
   // Get header and content elements
-  const [headerChild, contentChild] = hasHeader ? childrenArray : [null, childrenArray[0]];
+  const [headerChild, contentChild] = hasHeader
+    ? childrenArray
+    : [null, childrenArray[0]];
 
   return (
-    <div className={cn("bg-bg-card border border-t-0 border-bd-card rounded-md shadow-sm", className)}>
-      { hasHeader && headerChild }
-      { contentChild }
+    <div
+      className={cn(
+        "bg-bg-card border-bd-card rounded-md border border-t-0 shadow-xs",
+        className
+      )}
+    >
+      {hasHeader && headerChild}
+      {contentChild}
     </div>
   );
-}
+};
 
-export const StickyCardHeader: React.FC<StickyCardProps> = ({ children, className }) => {
-
+export const StickyCardHeader: React.FC<StickyCardProps> = ({
+  children,
+  className,
+}) => {
   return (
-    <header className={cn("w-full flex flex-col bg-bg-card border-b border-bd-card rounded-t-md", className)}>
-      { children }
+    <header
+      className={cn(
+        "bg-bg-card border-bd-card flex w-full flex-col rounded-t-md border-b",
+        className
+      )}
+    >
+      {children}
     </header>
   );
-}
+};
 
-export const StickyCardNav: React.FC<StickyCardNavProps> = ({ href, destination, page, className }) => {
-
-
+export const StickyCardNav: React.FC<StickyCardNavProps> = ({
+  href,
+  destination,
+  page,
+  className,
+}) => {
   return (
-    <nav className={cn("font-mono text-xs w-full flex items-center bg-bg-card rounded-t-md p-4", className)}>
-      <Link href={href} className="flex items-center gap-2 rounded-sm pr-2 text-tx-tertiary hover:bg-bg-hover hover:text-tx-primary">
-        <IconButton variant="ghostalt" size="sm"><NavArrowLeft/></IconButton>
+    <nav
+      className={cn(
+        "bg-bg-card flex w-full items-center rounded-t-md p-4 font-mono text-xs",
+        className
+      )}
+    >
+      <Link
+        href={href}
+        className="text-tx-tertiary hover:bg-bg-hover hover:text-tx-primary flex items-center gap-2 rounded-xs pr-2"
+      >
+        <IconButton variant="ghostalt" size="sm">
+          <NavArrowLeft />
+        </IconButton>
         <span> {destination} </span>
       </Link>
       <span className="text-tx-tertiary pr-2">/</span>
       <span className="text-tx-primary">{page}</span>
     </nav>
   );
-}
+};

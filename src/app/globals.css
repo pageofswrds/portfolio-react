@@ -1,13 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
 
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-smooth: never;
-}
+/* Custom theme variants (replaces addVariant plugin from v3) */
+@custom-variant theme-forest (&:where([data-theme="forest"], [data-theme="forest"] *));
+@custom-variant theme-opalite (&:where([data-theme="opalite"], [data-theme="opalite"] *));
 
+/* ============================================================================
+   LAYER 1: PRIMITIVE DESIGN TOKENS
+   ============================================================================ */
 @layer base {
   :root {
     /* Forest theme (default) */
@@ -35,7 +35,7 @@ body {
   }
 
   [data-theme="forest"] {
-    /* Forest theme colors */
+    /* Forest theme colors (same as :root) */
     --dark-800: 96 4% 24%;
     --dark-900: 96 4% 16%;
     --dark-950: 96 4% 10%;
@@ -62,7 +62,10 @@ body {
     --dark-900: 210 20% 18%;
     --dark-950: 210 20% 12%;
     --light-100: 210 40% 96%;
+    --light-150: 210 35% 94%;
     --light-200: 210 25% 88%;
+    --light-300: 210 25% 82%;
+    --light-400: 210 25% 75%;
     --light-600: 210 25% 55%;
     --light-900: 210 25% 20%;
     --brand: 214 88% 55%;
@@ -72,115 +75,196 @@ body {
     --font-mono-theme: var(--font-pressura-mono);
 
     /* card upper corner shadow */
-    --box-clip: rgb(242, 233, 217);
-  }
-
-  .dark {
-    --dark-800: 96 4% 24%;
-    --dark-900: 96 4% 16%;
-    --dark-950: 96 4% 10%;
-    --brown-200: 36 14% 85%;
-    --brown-600: 36 14% 50%;
-    --brown-800: 36 14% 15%;
-    --light: 38 58% 94%;
-    --green: 101 21% 45%;
+    --box-clip: rgb(230, 238, 250);
   }
 }
 
-@layer components {
-  .elevation-1 {
-    box-shadow:
-      0px 0px 4px -2px rgba(24, 39, 75, 0.08),
-      0px 0px 4px -2px rgba(24, 39, 75, 0.12);
-  }
+/* ============================================================================
+   LAYER 2: SEMANTIC UTILITIES VIA @theme
+   ============================================================================ */
+@theme {
+  /* Breakpoints */
+  --breakpoint-xs: 480px;
+  --breakpoint-little: 490px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
 
-  .elevation-big {
-    box-shadow: 27px 34px 55px 0px rgba(0, 0, 0, 0.15);
-  }
+  /* Typography */
+  --font-serif: var(--font-serif-theme);
+  --font-mono: var(--font-mono-theme);
+  --font-fraktion: var(--font-fraktion);
 
-  .card {
-    /* className="rounded-lg border-[#E4E4E7] bg-card elevation-1" */
-    background: hsl(var(--card));
-    border-radius: 0.5rem;
-    border: 1px solid hsl(var(--border));
-    /* box-shadow: 0px 0px 4px -2px rgba(24, 39, 75, 0.08), 0px 0px 4px -2px rgba(24, 39, 75, 0.12); */
-    overflow: clip;
-  }
+  --font-size-xs: 0.813rem;
+  --font-size-sm: 1rem;
+  --font-size-md: 1.25rem;
+  --font-size-lg: 1.625rem;
+  --font-size-xl: 2.063rem;
 
-  ol.styled {
-    list-style: number;
-    /* margin-left: 1.625rem; */
-    padding-left: 1.625rem;
-  }
+  --font-weight-400: 400;
+  --font-weight-500: 500;
+  --font-weight-600: 600;
 
-  ol.styled > li {
-    margin-top: 0.5rem;
-  }
+  /* Text Color Utilities */
+  --color-invert: #ffffff;
+  --color-light: hsl(var(--light-100));
+  --color-dark: hsl(var(--dark-800));
+  --color-brand: hsl(var(--brand));
 
-  /* --- Video Player --- */
-  /* src=https://stackoverflow.com/questions/49393838/how-to-make-reactplayer-scale-with-height-and-width */
-  .player-wrapper {
-    width: auto;
-    height: auto;
-  }
-  .react-player {
-    padding-top: 56.25%;
-    position: relative;
-  }
+  --color-tx: hsl(var(--dark-800));
+  --color-tx-body: hsl(var(--dark-800) / 0.95);
+  --color-tx-primary: hsl(var(--dark-800));
+  --color-tx-secondary: hsl(var(--dark-800) / 0.7);
+  --color-tx-tertiary: hsl(var(--dark-800) / 0.5);
+  --color-tx-disabled: hsl(var(--dark-800) / 0.22);
+  --color-tx-button: hsl(var(--light-100));
+  --color-tx-brand: hsl(var(--brand) / 0.95);
+  --color-tx-brand-disabled: hsl(var(--brand) / 0.35);
 
-  .react-player > div {
-    position: absolute;
-  }
+  /* Icon Color Utilities */
+  --color-ic: hsl(var(--dark-800));
+  --color-ic-primary: hsl(var(--dark-800) / 0.9);
+  --color-ic-secondary: hsl(var(--dark-800) / 0.6);
+  --color-ic-tertiary: hsl(var(--dark-800) / 0.4);
+  --color-ic-disabled: hsl(var(--dark-800) / 0.15);
+  --color-ic-button: hsl(var(--light-100));
+  --color-ic-brand: hsl(var(--brand) / 0.9);
+  --color-ic-brand-disabled: hsl(var(--brand) / 0.5);
 
-  .corner-shadow {
-    box-shadow:
-      0 0 12px 0 var(--box-shadow-04),
-      0 0 0 48px var(--box-clip);
-  }
+  /* Background Color Utilities */
+  --color-bg: hsl(var(--light-100));
+  --color-bg-base: hsl(var(--light-200));
+  --color-bg-card: hsl(var(--light-100));
+  --color-bg-card-hover: hsl(var(--light-150));
+  --color-bg-card-pressed: hsl(var(--light-300));
+  --color-bg-primary: hsl(var(--dark-800) / 0.08);
+  --color-bg-secondary: hsl(var(--dark-800) / 0.03);
+  --color-bg-hover: hsl(var(--dark-800) / 0.12);
+  --color-bg-pressed: hsl(var(--dark-800) / 0.15);
+  --color-bg-disabled: hsl(var(--dark-800) / 0.04);
+  --color-bg-brand: hsl(var(--brand) / 0.12);
+  --color-bg-brand-hover: hsl(var(--brand) / 0.18);
+  --color-bg-brand-pressed: hsl(var(--brand) / 0.22);
+  --color-bg-brand-disabled: hsl(var(--brand) / 0.06);
+  --color-bg-button: hsl(var(--dark-800));
+  --color-bg-button-hover: hsl(var(--dark-900) / 0.9);
+  --color-bg-button-pressed: hsl(var(--dark-950));
+  --color-bg-button-disabled: hsl(var(--brand) / 0.15);
+  --color-bg-button-brand: hsl(var(--brand));
 
-  /* Article content layout - constrain text but allow media to break out */
-  .prose-content {
-    /* Text content gets max-width but media breaks out */
-  }
+  /* Border Color Utilities */
+  --color-bd: hsl(var(--light-900));
+  --color-bd-base: hsl(var(--light-900) / 0.8);
+  --color-bd-card: hsl(var(--light-600) / 0.35);
+  --color-bd-primary: hsl(var(--dark-800) / 0.15);
+  --color-bd-secondary: hsl(var(--dark-800) / 0.08);
+  --color-bd-hover: hsl(var(--dark-800) / 0.17);
+  --color-bd-pressed: hsl(var(--dark-800) / 0.18);
+  --color-bd-disabled: hsl(var(--dark-800) / 0.05);
+  --color-bd-brand: hsl(var(--brand) / 0.55);
+  --color-bd-brand-hover: hsl(var(--brand) / 0.6);
+  --color-bd-brand-pressed: hsl(var(--brand) / 0.63);
+  --color-bd-brand-disabled: hsl(var(--brand) / 0.15);
 
-  .prose-content > * {
-    /* Default: all content respects the max-width */
-    max-width: 56rem; /* 896px - same as max-w-4xl */
-    margin-left: auto;
-    margin-right: auto;
-  }
+  /* Special Purpose */
+  --color-input: hsl(var(--light-600) / 0.2);
+  --color-ring: hsl(var(--brand) / 0.5);
 
-  .prose-content img,
-  .prose-content video,
-  .prose-content iframe,
-  .prose-content [data-video-player] {
-    /* Media elements extend to full article width */
-    max-width: none;
-    width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-  }
+  /* Border Radius */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
 
-  .prose-content .video-player-wrapper {
-    /* Ensure VideoPlayer component also breaks out */
-    max-width: none;
-    width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-  }
+/* ============================================================================
+   GLOBAL STYLES
+   ============================================================================ */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: never;
+}
 
-  .marking-menu-trigger {
-    /* Prevent text selection on iOS and other browsers */
-    user-select: none;
-    -webkit-user-select: none;
+/* ============================================================================
+   COMPONENT CLASSES
+   ============================================================================ */
+.elevation-1 {
+  box-shadow:
+    0px 0px 4px -2px rgba(24, 39, 75, 0.08),
+    0px 0px 4px -2px rgba(24, 39, 75, 0.12);
+}
 
-    /* Prevent iOS callout menu (copy/paste popup) */
-    -webkit-touch-callout: none;
+.elevation-big {
+  box-shadow: 27px 34px 55px 0px rgba(0, 0, 0, 0.15);
+}
 
-    /* Prevent tap highlight on iOS */
-    -webkit-tap-highlight-color: transparent;
+.card {
+  background: hsl(var(--light-100));
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--light-600) / 0.35);
+  overflow: clip;
+}
 
-    /* Make it clear this is interactive */
-    touch-action: none;
-  }
+ol.styled {
+  list-style: number;
+  padding-left: 1.625rem;
+}
+
+ol.styled > li {
+  margin-top: 0.5rem;
+}
+
+/* --- Video Player --- */
+.player-wrapper {
+  width: auto;
+  height: auto;
+}
+
+.react-player {
+  padding-top: 56.25%;
+  position: relative;
+}
+
+.react-player > div {
+  position: absolute;
+}
+
+.corner-shadow {
+  box-shadow:
+    0 0 12px 0 var(--box-shadow-04),
+    0 0 0 48px var(--box-clip);
+}
+
+/* Article content layout - constrain text but allow media to break out */
+.prose-content > * {
+  max-width: 56rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.prose-content img,
+.prose-content video,
+.prose-content iframe,
+.prose-content [data-video-player] {
+  max-width: none;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.prose-content .video-player-wrapper {
+  max-width: none;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.marking-menu-trigger {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
 }
