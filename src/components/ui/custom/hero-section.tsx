@@ -1,9 +1,14 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
 import SiteBar from "@/components/ui/custom/SiteBar";
-import PointScene from "@/components/3d/pointScene";
+
+const PointScene = dynamic(() => import("@/components/3d/pointScene"), {
+  ssr: false,
+  loading: () => <div className="h-full w-full bg-neutral-800" />,
+});
 
 const gogglesSrc = "/fa/head-side-goggles-solid.svg";
 const browserSrc = "/fa/browser-solid.svg";
@@ -29,7 +34,6 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
               className="mr-1"
             />
             <p className="font-500">Mixed Reality</p>
-            {/* <p className="font-500" style={{"leading-trim": 'both', 'text-edge': 'cap'}}>Mixed Reality</p> */}
           </div>
           <div className="bg-foreground flex rounded-full px-4 py-1">
             <Image
@@ -40,7 +44,6 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
               className="mr-1"
             />
             <p className="font-500">Front-end</p>
-            {/* <p className="font-500 " style={{"leading-trim": 'both', 'text-edge': 'cap'}}>Front-end</p> */}
           </div>
         </div>
       </div>
@@ -50,18 +53,8 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
       </div>
 
       <div className="top-0 h-[800px] w-full md:h-[800px]">
-        {/* <PortalScene isRunning={isRunning} /> */}
-        {/* <GlassScene /> */}
         <PointScene />
       </div>
-
-      {/* <div className="mx-2 p-4 sticky top-1 w-full">
-          <SiteBar />
-        </div> */}
-
-      {/* <div className="absolute z-1 p-6 top-[calc(100vh-32rem)] md:top-[calc(100vh-24rem)] right-16">
-          <Button onClick={toggleRunning} className={isRunning ? "bg-red-600 hover:bg-red-700" : "bg-blue-600 hover:bg-blue-700"}>{isRunning ? "Pause Sim" : "Start Sim"}</Button>
-        </div> */}
     </section>
   );
 };
