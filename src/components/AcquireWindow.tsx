@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import "@/app/styles.css";
 import Image from "next/image";
 
 export default function AcquireWindow({ src = "default" }: { src?: string }) {

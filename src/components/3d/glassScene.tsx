@@ -1,5 +1,3 @@
-import "@/app/styles.css";
-
 import { useRef, useState, Suspense, useMemo } from "react";
 import * as THREE from "three";
 import { Mesh } from "three";

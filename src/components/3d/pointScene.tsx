@@ -1,5 +1,4 @@
 "use client";
-import "@/app/styles.css";
 
 import { useRef, Suspense } from "react";
 import { Mesh } from "three";

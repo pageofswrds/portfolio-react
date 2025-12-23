@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import "@/app/styles.css";
 import Logo from "./logo";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -46,8 +45,8 @@ export default function SiteBar({ variant = "default" }: { variant?: string }) {
 
   return (
     <nav className={navStyling}>
-      <ul className="flex items-center justify-between gap-3 p-2 xs:gap-4 xs:p-4">
-        <li className="h-[32px] w-[32px] flex-shrink-0 xs:h-[48px] xs:w-[48px]">
+      <ul className="xs:gap-4 xs:p-4 flex items-center justify-between gap-3 p-2">
+        <li className="xs:h-[48px] xs:w-[48px] h-[32px] w-[32px] flex-shrink-0">
           {/* <a href="/">
               <Image
                 src={logoSrc}
@@ -58,7 +57,7 @@ export default function SiteBar({ variant = "default" }: { variant?: string }) {
             </a> */}
           <Logo isInverted={isInverted} />
         </li>
-        <li className="flex grow gap-0 xs:flex-col">
+        <li className="xs:flex-col flex grow gap-0">
           <h4 className={mainText}>David Schultz</h4>
           <small className={subText}>Interaction Designer</small>
         </li>

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import "@/app/styles.css";
 
 import ScrollButton from "@/components/ui/custom/scroll-button";
 import { Button } from "@/components/ui/button";
@@ -8,37 +7,37 @@ import Link from "next/link";
 export default function Cycles() {
   return (
     <main className="md:col-span-8">
-      <nav className="sticky top-0 z-[10000] flex gap-1 bg-bg pt-16 font-mono text-xs">
+      <nav className="bg-bg sticky top-0 z-[10000] flex gap-1 pt-16 font-mono text-xs">
         <Button variant="tab" size="tab" asChild>
           <Link href="/">davidschultz.co</Link>
         </Button>
-        <span className="border-b-[1px] border-bd/0 px-1 pb-[7px] pt-1.5 text-ic-tertiary">
+        <span className="border-bd/0 text-ic-tertiary border-b-[1px] px-1 pt-1.5 pb-[7px]">
           /
         </span>
         <Button variant="tab" size="tab" asChild>
           <Link href="/">write-ups</Link>
         </Button>
-        <span className="border-b-[1px] border-bd/0 px-1 pb-[7px] pt-1.5 text-ic-tertiary">
+        <span className="border-bd/0 text-ic-tertiary border-b-[1px] px-1 pt-1.5 pb-[7px]">
           /
         </span>
-        <span className="border-b-[1px] border-bd-base px-1 pb-[7px] pt-1.5 text-tx-primary">
+        <span className="border-bd-base text-tx-primary border-b-[1px] px-1 pt-1.5 pb-[7px]">
           cycles
         </span>
       </nav>
 
-      <article className="mt-16 text-tx-body">
+      <article className="text-tx-body mt-16">
         <header>
           <h1 className="text-tx-primary">
             Exploring spatial representations of time
           </h1>
-          <h3 className="font-mono text-tx-tertiary">2024 ※ XR prototyping</h3>
+          <h3 className="text-tx-tertiary font-mono">2024 ※ XR prototyping</h3>
           <p className="text-md">
             Building a &quot;time machine&quot; in mixed reality. This course
             was my first encounter with designing in XR. My team designed a new
             type of calendar—one that utilizes 3d-space. I was responsible for
             building a working prototype in Unity for the Quest 3.
           </p>
-          <div className="card mb-4 ">
+          <div className="card mb-4">
             <Image
               src="https://schultzdavidg-portfolio.s3.us-west-1.amazonaws.com/images/cycles/demo-quick.gif"
               alt="unity demo"
@@ -54,7 +53,7 @@ export default function Cycles() {
           </div>
         </header>
         <section>
-          <h3 className="w-full border-spacing-4 border-b-[1px] border-dashed border-bd-primary pb-1 font-mono text-tx-primary">
+          <h3 className="border-bd-primary text-tx-primary w-full border-spacing-4 border-b-[1px] border-dashed pb-1 font-mono">
             # Conceptual sketches
           </h3>
           <p>
@@ -73,7 +72,7 @@ export default function Cycles() {
             feel &quot;anchored.&quot; It didn&apos;t give you a sense of where
             you were in your day.
           </p>
-          <div className="card mb-4 ">
+          <div className="card mb-4">
             <Image
               src="https://schultzdavidg-portfolio.s3.us-west-1.amazonaws.com/images/cycles/linear-shapesxr.png"
               alt="video of me, prototyping with ShapesXR"
@@ -124,7 +123,7 @@ export default function Cycles() {
         </section>
 
         <section>
-          <h3 className="w-full border-spacing-4 border-b-[1px] border-dashed border-bd-primary pb-1 font-mono text-tx-primary">
+          <h3 className="border-bd-primary text-tx-primary w-full border-spacing-4 border-b-[1px] border-dashed pb-1 font-mono">
             # Unity development
           </h3>
           <p>
@@ -134,7 +133,7 @@ export default function Cycles() {
             immersive environment was immediately apparent.
           </p>
           <p>Thinking long-term, I noticed two major problems:</p>
-          <ol className="styled mb-4 text-md">
+          <ol className="styled text-md mb-4">
             <li>
               We needed to be able to record passthrough, which isn&apos;t
               possible on Quest 2.

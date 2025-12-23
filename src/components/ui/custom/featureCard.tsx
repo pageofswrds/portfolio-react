@@ -1,7 +1,5 @@
 "use client";
 import React from "react";
-import "@/app/styles.css";
-
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -64,7 +62,7 @@ export default function FeatureCard({
       >
         {badge}
       </Badge>
-      <h3 className="mb-2 mt-4 font-500">{h3}</h3>
+      <h3 className="font-500 mt-4 mb-2">{h3}</h3>
       <p>{p}</p>
 
       {imageFullSrc.length === 0 ? (
