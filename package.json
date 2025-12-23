@@ -46,7 +46,6 @@
     "@types/mdx": "^2.0.13",
     "@types/three": "^0.163.0",
     "@vercel/blob": "^1.1.1",
-    "@vercel/edge-config": "^0.4.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "d3": "^7.9.0",
