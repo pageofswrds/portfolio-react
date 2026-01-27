@@ -1,9 +1,7 @@
-'use client'
-import React from 'react';
-import {useState, useEffect} from 'react';
-import '@/app/styles.css'
-
-import { ArrowUp } from 'iconoir-react'
+"use client";
+import React from "react";
+import { useState, useEffect } from "react";
+import { ArrowUp } from "iconoir-react";
 
 interface ScrollButtonProps {
   // Add any props you need for your ScrollButton component
@@ -12,23 +10,23 @@ interface ScrollButtonProps {
 
 const ScrollButton: React.FC<ScrollButtonProps> = ({ isActive = true }) => {
   const [isTop, setIsTop] = useState(true);
-  
+
   useEffect(() => {
     const updateScroll = () => {
-      if(window.scrollY > 500) {
+      if (window.scrollY > 500) {
         setIsTop(false);
       } else {
         setIsTop(true);
       }
     };
-    window.addEventListener('scroll', updateScroll);
-    return () => window.removeEventListener('scroll', updateScroll);
+    window.addEventListener("scroll", updateScroll);
+    return () => window.removeEventListener("scroll", updateScroll);
   }, []);
 
   const scrollUp = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
 
     setIsTop(true);
@@ -36,13 +34,16 @@ const ScrollButton: React.FC<ScrollButtonProps> = ({ isActive = true }) => {
 
   return (
     <>
-    { isTop && isActive ?
-      <></>
-      :
-      <button className="fixed bottom-8 right-8 z-[49] elevation-2 glass-darker p-2 rounded-max w-[48px] h-[48px]" onClick={scrollUp}>
-        <ArrowUp className="w-5 h-5 text-secondary" />
-      </button>
-    }
+      {isTop && isActive ? (
+        <></>
+      ) : (
+        <button
+          className="elevation-2 glass-darker rounded-max fixed right-8 bottom-8 z-[49] h-[48px] w-[48px] p-2"
+          onClick={scrollUp}
+        >
+          <ArrowUp className="text-secondary h-5 w-5" />
+        </button>
+      )}
     </>
   );
 };

@@ -12,11 +12,6 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors. Only warnings in archive folder.
-    ignoreDuringBuilds: true,
-  },
   async redirects() {
     return [
       {
@@ -25,9 +20,6 @@ const nextConfig = {
         permanent: true,
       },
     ];
-  },
-  compiler: {
-    styledComponents: true,
   },
   images: {
     remotePatterns: [
@@ -51,12 +43,6 @@ const nextConfig = {
     "@react-three/drei",
     "@react-three/postprocessing",
   ],
-
-  // ADDED the below to try and fix deserialization performance;
-  // https://stackoverflow.com/questions/78471919/how-to-debug-webpack-cache-packfilecachestrategy-serializing-big-strings-in
-  experimental: {
-    optimizePackageImports: ["@mantine/core", "@mantine/hooks"],
-  },
 
   webpack: (config, { dev }) => {
     // Use memory cache to avoid "Serializing big strings" warnings

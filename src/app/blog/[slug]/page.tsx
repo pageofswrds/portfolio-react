@@ -35,7 +35,8 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   // For MDX files, render with MDX compiler
   const isMDX = article.isMDX;
-  let renderedContent;
+  let mdxContent: React.ReactNode | null = null;
+  let useFallback = !isMDX;
 
   if (isMDX) {
     try {
@@ -46,19 +47,22 @@ export default async function BlogPostPage({ params }: PageProps) {
       if (fs.existsSync(filePath)) {
         const fileContent = fs.readFileSync(filePath, "utf8");
         const { content } = await renderMDXContent(fileContent);
-        renderedContent = content;
+        mdxContent = content;
       } else {
         // Fallback to article content from database
-        renderedContent = <Markdown markdown={article.content} />;
+        useFallback = true;
       }
     } catch (error) {
       logger.error("Error rendering MDX:", error);
-      renderedContent = <Markdown markdown={article.content} />;
+      useFallback = true;
     }
-  } else {
-    // For regular markdown, use existing Markdown component
-    renderedContent = <Markdown markdown={article.content} />;
   }
+
+  const renderedContent = useFallback ? (
+    <Markdown markdown={article.content} />
+  ) : (
+    mdxContent
+  );
 
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
@@ -66,8 +70,8 @@ export default async function BlogPostPage({ params }: PageProps) {
         <SidebarNav href={"/?tab=blog"} breadcrumb={"blog"} page={slug} />
 
         <main className="md:col-span-8">
-          <StickyCardMask />
-          <StickyCard>
+          <StickyCardMask mobileFullWidth />
+          <StickyCard mobileFullWidth>
             <article className="mx-auto max-w-4xl px-8 py-8">
               {renderedContent}
             </article>

@@ -58,16 +58,24 @@ export default function HomeTabsWithScroll({
     return defaultTab as TabValue;
   });
 
-  // Hydrate from localStorage after mount (client-side only)
-  useEffect(() => {
-    // Only apply localStorage if there's no URL param
-    if (!tabFromUrl && typeof window !== "undefined") {
-      const savedTab = localStorage.getItem("activeTab");
-      if (savedTab && isValidTab(savedTab)) {
-        setActiveTab(savedTab);
-      }
+  // Track previous tabFromUrl to detect URL changes (adjusting state during render pattern)
+  const [prevTabFromUrl, setPrevTabFromUrl] = useState(tabFromUrl);
+  if (tabFromUrl !== prevTabFromUrl) {
+    setPrevTabFromUrl(tabFromUrl);
+    if (isValidTab(tabFromUrl)) {
+      setActiveTab(tabFromUrl);
     }
-  }, []); // Empty deps - only run once on mount
+  }
+
+  // Track if localStorage has been applied (for hydration)
+  const [didHydrate, setDidHydrate] = useState(false);
+  if (!didHydrate && typeof window !== "undefined" && !tabFromUrl) {
+    setDidHydrate(true);
+    const savedTab = localStorage.getItem("activeTab");
+    if (savedTab && isValidTab(savedTab)) {
+      setActiveTab(savedTab);
+    }
+  }
 
   // Update localStorage and URL when tab changes
   const handleTabValueChange = (value: string) => {
@@ -104,13 +112,6 @@ export default function HomeTabsWithScroll({
     }, 100); // Increased delay to ensure tab content has fully rendered
   };
 
-  // Sync with URL changes (e.g., browser back/forward)
-  useEffect(() => {
-    if (isValidTab(tabFromUrl)) {
-      setActiveTab(tabFromUrl);
-    }
-  }, [tabFromUrl]);
-
   return (
     <Tabs
       id="tabs"
@@ -120,11 +121,11 @@ export default function HomeTabsWithScroll({
     >
       <StickyCardHeader className="sticky top-[-81px] z-0">
         {/* <h2 className="text-lg pl-4 pt-4">Stuff</h2> */}
-        <div className="ml-4 mt-4 p-4 pb-0">
-          <p className="text-lg italic text-tx-body">Hello from Seattle, WA</p>
+        <div className="mt-4 ml-4 p-4 pb-0">
+          <p className="text-tx-body text-lg italic">Hello from Seattle, WA</p>
           <Tooltip>
             <TooltipTrigger asChild>
-              <CurrentTime className="font-mono text-sm text-tx-secondary" />
+              <CurrentTime className="text-tx-secondary font-mono text-sm" />
             </TooltipTrigger>
             <TooltipContent>
               <p>this site is v in-progress lol</p>
@@ -211,7 +212,7 @@ export default function HomeTabsWithScroll({
               unoptimized
             />
           </div>
-          <div className="my-4 flex w-full flex-col gap-3 rounded p-4 text-md">
+          <div className="text-md my-4 flex w-full flex-col gap-3 rounded p-4">
             <p className="text-tx-body">Hellooooooo</p>
             <p className="text-tx-body">
               I&apos;m a designer/developer based in Seattle, WA. I graduated
@@ -243,7 +244,7 @@ export default function HomeTabsWithScroll({
                 alt="David Schultz"
                 width={900}
                 height={600}
-                className="h-auto w-full object-cover "
+                className="h-auto w-full object-cover"
                 unoptimized
               />
             </Link>

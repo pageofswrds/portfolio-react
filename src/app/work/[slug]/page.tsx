@@ -36,8 +36,9 @@ export default async function ArticlePage({ params }: PageProps) {
 
   // For MDX files, render with MDX compiler
   const isMDX = article.isMDX;
-  let renderedContent;
+  let mdxContent: React.ReactNode | null = null;
   let anchors: AnchorData[] = [];
+  let useFallback = !isMDX;
 
   if (isMDX) {
     try {
@@ -49,32 +50,34 @@ export default async function ArticlePage({ params }: PageProps) {
         const fileContent = fs.readFileSync(filePath, "utf8");
         const { content, anchors: extractedAnchors } =
           await renderMDXContent(fileContent);
-        // const { content, anchors: extractedAnchors } = await renderMDXContentWithAnchors(fileContent)
-        renderedContent = content;
+        mdxContent = content;
         anchors = extractedAnchors;
       } else {
         // Fallback to article content from database
-        renderedContent = <Markdown markdown={article.content} />;
+        useFallback = true;
       }
     } catch (error) {
       logger.error("Error rendering MDX:", error);
-      renderedContent = <Markdown markdown={article.content} />;
+      useFallback = true;
     }
-  } else {
-    // For regular markdown, use existing Markdown component
-    renderedContent = <Markdown markdown={article.content} />;
   }
+
+  const renderedContent = useFallback ? (
+    <Markdown markdown={article.content} />
+  ) : (
+    mdxContent
+  );
 
   return (
     <div className="flex w-full flex-col gap-8 md:flex-row">
       <Sidebar>
         <SidebarNav href={"/"} breadcrumb={"work"} page={slug} />
-        <ol className="flex flex-col space-y-1 rounded-md border border-bd-secondary bg-bg-card p-3 font-mono text-sm text-tx-primary">
+        <ol className="border-bd-secondary bg-bg-card text-tx-primary flex flex-col space-y-1 rounded-md border p-3 font-mono text-sm">
           {anchors.map((anchor) => (
             <a
               key={anchor.id}
               href={`#${anchor.id}`}
-              className="rounded bg-bg-secondary px-4 py-3 hover:bg-bg-hover hover:underline active:bg-bg-pressed"
+              className="bg-bg-secondary hover:bg-bg-hover active:bg-bg-pressed rounded px-4 py-3 hover:underline"
             >
               <li className="">{anchor.title}</li>
             </a>
@@ -83,9 +86,8 @@ export default async function ArticlePage({ params }: PageProps) {
       </Sidebar>
 
       <main className="min-w-0 flex-1">
-        <StickyCardMask />
-        <StickyCard>
-          {/* <StickyCardNav href="/" destination="work" page ={params.slug} className="sticky top-6" /> */}
+        <StickyCardMask mobileFullWidth />
+        <StickyCard mobileFullWidth>
           <article className="px-8 py-8">
             <div className="prose-content mx-auto max-w-4xl">
               {renderedContent}
