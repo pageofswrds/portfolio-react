@@ -48,9 +48,8 @@ export default function MarkdownDemo() {
         />
 
         <main className="md:col-span-8">
-          <StickyCardMask />
-          <StickyCard>
-            {/* <StickyCardNav href="/" destination="work" page ={params.slug} className="sticky top-6" /> */}
+          <StickyCardMask mobileFullWidth />
+          <StickyCard mobileFullWidth>
             <article className="mx-auto max-w-4xl px-8 py-8">
               {renderedContent.content}
             </article>

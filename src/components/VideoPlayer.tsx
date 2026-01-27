@@ -2,10 +2,30 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import React from "react";
-import { useEffect, useState } from "react";
-// import ReactPlayer from 'react-player'
+import React, { useSyncExternalStore } from "react";
+
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
+
+// Custom hook to track if component has mounted (for SSR hydration)
+function useHasMounted(): boolean {
+  return useSyncExternalStore(
+    () => () => {}, // subscribe - no-op since mount status doesn't change
+    () => true, // getSnapshot - client is always mounted
+    () => false // getServerSnapshot - server is never mounted
+  );
+}
+
+// Custom hook to track window width with SSR support
+function useIsDesktop(): boolean {
+  return useSyncExternalStore(
+    (callback) => {
+      window.addEventListener("resize", callback);
+      return () => window.removeEventListener("resize", callback);
+    },
+    () => window.innerWidth >= 768,
+    () => false // Default to mobile on server
+  );
+}
 
 interface VideoPlayerProps {
   width: string;
@@ -15,22 +35,8 @@ interface VideoPlayerProps {
 }
 
 const VideoPlayer: React.FunctionComponent<VideoPlayerProps> = (props) => {
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-    // Check if it's desktop based on screen width
-    setIsDesktop(window.innerWidth >= 768);
-
-    // Optional: Add resize listener for responsive behavior
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 768);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const isMounted = useHasMounted();
+  const isDesktop = useIsDesktop();
 
   // During SSR and initial client render, show a placeholder to prevent hydration mismatch
   if (!isMounted) {
@@ -88,21 +94,3 @@ const VideoPlayer: React.FunctionComponent<VideoPlayerProps> = (props) => {
 };
 
 export default VideoPlayer;
-
-// export const VideoPlayer = ({ videoTitle, videoUrl }):
-// VideoPlayerProps => {
-//   const [hasWindow, setHasWindow] = useState(false);
-//   useEffect(() => {
-//     if (typeof window !== "undefined") {
-//       setHasWindow(true);
-//     }
-//   }, []);
-
-//   return (
-//     <div>
-
-//     </div>
-//   );
-// }
-
-// src: https://github.com/cookpete/react-player/issues/1428

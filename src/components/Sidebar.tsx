@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -43,13 +43,11 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
 }) => {
   const pathname = usePathname();
   const [showTime, setShowTime] = useState(false); // State to toggle between breadcrumbs and time
-  const [homeHref, setHomeHref] = useState("/"); // Dynamic home link
 
-  // Determine which tab to navigate to based on current page
-  useEffect(() => {
+  // Compute homeHref from pathname (derived value, not state)
+  const homeHref = useMemo(() => {
     if (!pathname || pathname === "/") {
-      setHomeHref("/");
-      return;
+      return "/";
     }
 
     const pathSegments = pathname.split("/").filter(Boolean);
@@ -58,17 +56,17 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
 
       // Map the section to the appropriate tab
       if (section === "work" || section === "blog" || section === "demos") {
-        setHomeHref(`/?tab=${section}`);
+        return `/?tab=${section}`;
       } else {
         // For other sections, check localStorage or default to '/'
         if (typeof window !== "undefined") {
           const savedTab = localStorage.getItem("activeTab");
-          setHomeHref(savedTab ? `/?tab=${savedTab}` : "/");
-        } else {
-          setHomeHref("/");
+          return savedTab ? `/?tab=${savedTab}` : "/";
         }
+        return "/";
       }
     }
+    return "/";
   }, [pathname]);
 
   // Build the display text based on toggle state

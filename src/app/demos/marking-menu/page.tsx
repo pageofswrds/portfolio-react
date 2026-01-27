@@ -184,8 +184,11 @@ export default function MarkingMenuPage() {
       </Sidebar>
 
       <main className="pb-12 md:col-span-7">
-        <StickyCardMask />
-        <StickyCard className="border-bd-primary bg-bg-secondary rounded border">
+        <StickyCardMask mobileFullWidth />
+        <StickyCard
+          mobileFullWidth
+          className="border-bd-primary bg-bg-secondary md:rounded md:border"
+        >
           <div className="flex min-h-[600px] flex-col items-center justify-center gap-12 p-8 pb-12 md:gap-32 md:pt-48">
             <MarkingMenu
               onSelect={handleSelect}

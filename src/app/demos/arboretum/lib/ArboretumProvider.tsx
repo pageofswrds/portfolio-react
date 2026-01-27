@@ -512,6 +512,7 @@ export const ArboretumProvider: React.FC<{ children: ReactNode }> = ({
   // Initialize data on mount
   useEffect(() => {
     if (!isInitialized.current && state.accessions.length > 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Data initialization is a legitimate use case
       initializeAndComputeData(state.accessions);
       isInitialized.current = true;
     }
@@ -520,6 +521,7 @@ export const ArboretumProvider: React.FC<{ children: ReactNode }> = ({
   // Recompute data when filter changes
   useEffect(() => {
     if (isInitialized.current) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Data recomputation on filter change is a legitimate use case
       computeData();
     }
   }, [state.filterConfig, computeData]);

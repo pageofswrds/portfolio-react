@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -186,7 +186,7 @@ const AccordionRow: React.FC<AccordionRowProps> = ({
   return (
     <>
       <TableRow
-        className={`cursor-pointer hover:bg-bg-hover ${isExpanded ? "bg-bg-base" : ""}`}
+        className={`hover:bg-bg-hover cursor-pointer ${isExpanded ? "bg-bg-base" : ""}`}
         onClick={(e) => {
           // Check if click was on checkbox or its label
           const target = e.target as HTMLElement;
@@ -242,19 +242,19 @@ const AccordionRow: React.FC<AccordionRowProps> = ({
 
       {isExpanded && (
         <>
-          <TableRow className="border-b-0 bg-bg-base">
-            <TableCell className="font-medium w-full pb-2 pl-16 pt-3 font-mono text-sm text-tx-primary">
+          <TableRow className="bg-bg-base border-b-0">
+            <TableCell className="text-tx-primary w-full pt-3 pb-2 pl-16 font-mono text-sm font-medium">
               Species
             </TableCell>
-            <TableCell className="w-48 pb-2 pt-3"></TableCell>
+            <TableCell className="w-48 pt-3 pb-2"></TableCell>
           </TableRow>
           {filteredSpecies.map((species, index) => (
             <TableRow
               key={species.name}
-              className={`cursor-pointer bg-bg-base hover:bg-bg-hover ${index === filteredSpecies.length - 1 ? "" : "border-b-0"}`}
+              className={`bg-bg-base hover:bg-bg-hover cursor-pointer ${index === filteredSpecies.length - 1 ? "" : "border-b-0"}`}
               onClick={() => handleSpeciesToggle(species.name)}
             >
-              <TableCell className="w-full py-2 pl-16 text-tx-secondary">
+              <TableCell className="text-tx-secondary w-full py-2 pl-16">
                 <div className="flex items-center gap-2">
                   <Checkbox
                     checked={filterState.selectedSpecies.has(species.name)}
@@ -264,7 +264,7 @@ const AccordionRow: React.FC<AccordionRowProps> = ({
                   <TruncatedCell text={species.name} maxLength={30} />
                 </div>
               </TableCell>
-              <TableCell className="w-48 py-2 text-tx-secondary">
+              <TableCell className="text-tx-secondary w-48 py-2">
                 {species.accessionCount.toLocaleString()}
               </TableCell>
             </TableRow>
@@ -331,7 +331,7 @@ export function OverviewFilterCard() {
   }, [setFilter]);
 
   return (
-    <div className="flex flex-col rounded border bg-bg-card p-2">
+    <div className="bg-bg-card flex flex-col rounded border p-2">
       <div className="mb-1 flex px-2">
         <h3 className="text-lg">Data</h3>
       </div>
@@ -354,31 +354,31 @@ export function OverviewFilterCard() {
           <SelectionDialogContent onClose={() => setIsDialogOpen(false)} />
         </div>
       </Dialog>
-      <div className="flex flex-col gap-2 rounded bg-bg-secondary px-4 py-3 font-mono">
+      <div className="bg-bg-secondary flex flex-col gap-2 rounded px-4 py-3 font-mono">
         <div className="flex">
           <div className="flex grow flex-col">
-            <p className="text-lg text-tx-body">
+            <p className="text-tx-body text-lg">
               {statistics.totalAccessions.toLocaleString()}
             </p>
-            <p className="text-sm text-tx-tertiary">Accessions</p>
+            <p className="text-tx-tertiary text-sm">Accessions</p>
           </div>
           <div className="flex grow flex-col">
-            <p className="text-lg text-tx-body">{statistics.filledCells}</p>
-            <p className="text-sm text-tx-tertiary">Filled cells</p>
+            <p className="text-tx-body text-lg">{statistics.filledCells}</p>
+            <p className="text-tx-tertiary text-sm">Filled cells</p>
           </div>
         </div>
         <div className="flex">
           <div className="flex grow flex-col">
-            <p className="text-lg text-tx-body">
+            <p className="text-tx-body text-lg">
               {statistics.meanA.toFixed(1)}
             </p>
-            <p className="text-sm text-tx-tertiary">Unique Species</p>
+            <p className="text-tx-tertiary text-sm">Unique Species</p>
           </div>
           <div className="flex grow flex-col">
-            <p className="text-lg text-tx-body">
+            <p className="text-tx-body text-lg">
               {statistics.stdDevA.toFixed(2)}
             </p>
-            <p className="text-sm text-tx-tertiary">Standard deviation</p>
+            <p className="text-tx-tertiary text-sm">Standard deviation</p>
           </div>
         </div>
       </div>
@@ -390,26 +390,8 @@ export function SelectionDialogContent({ onClose }: { onClose: () => void }) {
   const { accessions, families, species, setFilter, filterConfig } =
     useArboretum();
 
-  // Local filter state for the dialog
-  const [localFilterState, setLocalFilterState] = useState<FilterState>({
-    selectedFamilies: new Set(),
-    selectedSpecies: new Set(),
-  });
-
-  // Search state
-  const [searchText, setSearchText] = useState("");
-
-  // Sorting state
-  const [sortBy, setSortBy] = useState<"family" | "accessions">("accessions");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-
-  // Expanded accordion state
-  const [expandedFamilies, setExpandedFamilies] = useState<Set<string>>(
-    new Set()
-  );
-
-  // Initialize local state from current filters
-  useEffect(() => {
+  // Helper function to compute filter state from config
+  const computeFilterState = useCallback((): FilterState => {
     const newState: FilterState = {
       selectedFamilies: new Set(),
       selectedSpecies: new Set(),
@@ -430,8 +412,31 @@ export function SelectionDialogContent({ onClose }: { onClose: () => void }) {
       filterConfig.values.forEach((sp) => newState.selectedSpecies.add(sp));
     }
 
-    setLocalFilterState(newState);
+    return newState;
   }, [filterConfig, accessions]);
+
+  // Local filter state for the dialog - initialized from current filters
+  const [localFilterState, setLocalFilterState] =
+    useState<FilterState>(computeFilterState);
+
+  // Track previous filterConfig to detect changes (adjusting state during render pattern)
+  const [prevFilterConfig, setPrevFilterConfig] = useState(filterConfig);
+  if (filterConfig !== prevFilterConfig) {
+    setPrevFilterConfig(filterConfig);
+    setLocalFilterState(computeFilterState());
+  }
+
+  // Search state
+  const [searchText, setSearchText] = useState("");
+
+  // Sorting state
+  const [sortBy, setSortBy] = useState<"family" | "accessions">("accessions");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+
+  // Expanded accordion state
+  const [expandedFamilies, setExpandedFamilies] = useState<Set<string>>(
+    new Set()
+  );
 
   // Prepare family data with species and accession counts
   const familyData = useMemo(() => {
@@ -633,7 +638,7 @@ export function SelectionDialogContent({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <DialogContent className="max-w-2xl bg-bg-card p-4">
+    <DialogContent className="bg-bg-card max-w-2xl p-4">
       <DialogHeader className="flex flex-col gap-3">
         <div className="flex items-start gap-2">
           <DialogTitle className="flex flex-1 text-left text-lg">
@@ -658,10 +663,10 @@ export function SelectionDialogContent({ onClose }: { onClose: () => void }) {
         <div className="flex flex-wrap items-center gap-1">
           {selectedFamiliesFromSpecies.size === 0 ? (
             <>
-              <span className="text-sm text-tx-secondary">
+              <span className="text-tx-secondary text-sm">
                 No filters applied,
               </span>
-              <span className="font-mono text-sm text-tx-secondary">
+              <span className="text-tx-secondary font-mono text-sm">
                 ({species.length} species in dataset)
               </span>
             </>
@@ -677,7 +682,7 @@ export function SelectionDialogContent({ onClose }: { onClose: () => void }) {
                   <TruncatedCell text={familyName} maxLength={15} /> <Xmark />
                 </Button>
               ))}
-              <span className="font-mono text-sm text-tx-secondary">
+              <span className="text-tx-secondary font-mono text-sm">
                 ({localFilterState.selectedSpecies.size} species selected)
               </span>
             </>
@@ -694,12 +699,12 @@ export function SelectionDialogContent({ onClose }: { onClose: () => void }) {
         </div>
 
         <div className="max-h-96 overflow-x-auto overflow-y-auto">
-          <div className="min-w-full overflow-hidden rounded border border-bd-primary">
+          <div className="border-bd-primary min-w-full overflow-hidden rounded border">
             <Table className="min-w-full">
               <TableHeader className="bg-bg-primary">
                 <TableRow>
                   <TableHead
-                    className="flex min-w-0 grow cursor-pointer items-center gap-1 text-sm hover:bg-bg-hover"
+                    className="hover:bg-bg-hover flex min-w-0 grow cursor-pointer items-center gap-1 text-sm"
                     onClick={() => handleToggleSort("family")}
                   >
                     Family
@@ -720,7 +725,7 @@ export function SelectionDialogContent({ onClose }: { onClose: () => void }) {
                     </Button>
                   </TableHead>
                   <TableHead
-                    className="min-w-32 cursor-pointer hover:bg-bg-hover"
+                    className="hover:bg-bg-hover min-w-32 cursor-pointer"
                     onClick={() => handleToggleSort("accessions")}
                   >
                     <div className="flex items-center gap-1">

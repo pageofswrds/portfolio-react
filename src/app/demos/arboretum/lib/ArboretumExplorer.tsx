@@ -1,8 +1,16 @@
 // This file should handle computation, and bridge the gap between <ArboretumDataControls/> and <ArboretumVisualizer/>
 
-'use client'
+"use client";
 
-import React, { createContext, useContext, useState, useEffect, useRef, useCallback, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  ReactNode,
+} from "react";
 
 // Types
 export interface Cell {
@@ -32,12 +40,19 @@ export interface Accession {
 }
 
 export interface FilterConfig {
-  type: 'ALL' | 'FAMILY' | 'SPECIES';
+  type: "ALL" | "FAMILY" | "SPECIES";
   value: string;
 }
 
 export interface ComputeConfig {
-  metric: 'ALL' | 'FAMILY' | 'SPECIES' | 'Z-SCORE' | 'Z-SCORE-UNIQUE' | 'DIVERSITY' | 'PERCENTAGE';
+  metric:
+    | "ALL"
+    | "FAMILY"
+    | "SPECIES"
+    | "Z-SCORE"
+    | "Z-SCORE-UNIQUE"
+    | "DIVERSITY"
+    | "PERCENTAGE";
 }
 
 export interface Statistics {
@@ -71,13 +86,15 @@ interface ArboretumContextType extends ArboretumState {
 }
 
 // Context
-const ArboretumContext = createContext<ArboretumContextType | undefined>(undefined);
+const ArboretumContext = createContext<ArboretumContextType | undefined>(
+  undefined
+);
 
 // Hook to use the context
 export const useArboretum = () => {
   const context = useContext(ArboretumContext);
   if (context === undefined) {
-    throw new Error('useArboretum must be used within an ArboretumProvider');
+    throw new Error("useArboretum must be used within an ArboretumProvider");
   }
   return context;
 };
@@ -144,12 +161,14 @@ const clearCellData = (cell: Cell): Cell => ({
 });
 
 // Provider component
-export const ArboretumProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const ArboretumProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [state, setState] = useState<ArboretumState>({
     cellData: [],
     selectedCell: null,
-    filterConfig: { type: 'ALL', value: '' },
-    computeConfig: { metric: 'ALL' },
+    filterConfig: { type: "ALL", value: "" },
+    computeConfig: { metric: "ALL" },
     statistics: {
       totalAccessions: 0,
       meanA: 0,
@@ -160,7 +179,7 @@ export const ArboretumProvider: React.FC<{ children: ReactNode }> = ({ children 
       stdDevS: 0,
       filledCells: 0,
     },
-    blockHeights: 'ALL',
+    blockHeights: "ALL",
     species: [],
     families: [],
     isLoading: true,
@@ -168,42 +187,48 @@ export const ArboretumProvider: React.FC<{ children: ReactNode }> = ({ children 
 
   const isInitialized = useRef(false);
 
-  const shouldIncludeAccession = useCallback((accession: Accession, filter: FilterConfig): boolean => {
-    switch (filter.type) {
-      case 'FAMILY':
-        return accession.family === filter.value;
-      case 'SPECIES':
-        return accession.species === filter.value;
-      case 'ALL':
-      default:
-        return true;
-    }
-  }, []);
+  const shouldIncludeAccession = useCallback(
+    (accession: Accession, filter: FilterConfig): boolean => {
+      switch (filter.type) {
+        case "FAMILY":
+          return accession.family === filter.value;
+        case "SPECIES":
+          return accession.species === filter.value;
+        case "ALL":
+        default:
+          return true;
+      }
+    },
+    []
+  );
 
   const computeData = useCallback(async () => {
     // Load accessions data
-    const response = await fetch('/data/accessions.json');
-    const accessions = await response.json() as Accession[];
-    
-    setState(prev => {
+    const response = await fetch("/data/accessions.json");
+    const accessions = (await response.json()) as Accession[];
+
+    setState((prev) => {
       const updatedCellData = prev.cellData.map(clearCellData);
-      
+
       // Apply filter and compute cell data
       for (const accession of accessions) {
-        const cell = updatedCellData.find(c => c.id === accession.cell);
+        const cell = updatedCellData.find((c) => c.id === accession.cell);
         if (!cell) continue;
 
-        const shouldInclude = shouldIncludeAccession(accession, prev.filterConfig);
+        const shouldInclude = shouldIncludeAccession(
+          accession,
+          prev.filterConfig
+        );
         if (!shouldInclude) continue;
 
         // Update cell data
         cell.accessions++;
-        
+
         if (!cell.uniqueFamilies.includes(accession.family)) {
           cell.uniqueFamilies.push(accession.family);
           cell.families++;
         }
-        
+
         if (!cell.uniqueSpecies.includes(accession.species)) {
           cell.uniqueSpecies.push(accession.species);
           cell.species++;
@@ -211,43 +236,66 @@ export const ArboretumProvider: React.FC<{ children: ReactNode }> = ({ children 
       }
 
       // Calculate statistics and z-scores
-      const filledCells = updatedCellData.filter(cell => cell.accessions > 0);
-      const totalAccessions = updatedCellData.reduce((sum, cell) => sum + cell.accessions, 0);
-      
+      const filledCells = updatedCellData.filter((cell) => cell.accessions > 0);
+      const totalAccessions = updatedCellData.reduce(
+        (sum, cell) => sum + cell.accessions,
+        0
+      );
+
       // Calculate means
-      const meanA = filledCells.reduce((sum, cell) => sum + cell.accessions, 0) / filledCells.length || 0;
-      const meanF = filledCells.reduce((sum, cell) => sum + cell.families, 0) / filledCells.length || 0;
-      const meanS = filledCells.reduce((sum, cell) => sum + cell.species, 0) / filledCells.length || 0;
-      
+      const meanA =
+        filledCells.reduce((sum, cell) => sum + cell.accessions, 0) /
+          filledCells.length || 0;
+      const meanF =
+        filledCells.reduce((sum, cell) => sum + cell.families, 0) /
+          filledCells.length || 0;
+      const meanS =
+        filledCells.reduce((sum, cell) => sum + cell.species, 0) /
+          filledCells.length || 0;
+
       // Calculate standard deviations
       const stdDevA = Math.sqrt(
-        filledCells.reduce((sum, cell) => sum + Math.pow(cell.accessions - meanA, 2), 0) / filledCells.length || 0
+        filledCells.reduce(
+          (sum, cell) => sum + Math.pow(cell.accessions - meanA, 2),
+          0
+        ) / filledCells.length || 0
       );
       const stdDevF = Math.sqrt(
-        filledCells.reduce((sum, cell) => sum + Math.pow(cell.families - meanF, 2), 0) / filledCells.length || 0
+        filledCells.reduce(
+          (sum, cell) => sum + Math.pow(cell.families - meanF, 2),
+          0
+        ) / filledCells.length || 0
       );
       const stdDevS = Math.sqrt(
-        filledCells.reduce((sum, cell) => sum + Math.pow(cell.species - meanS, 2), 0) / filledCells.length || 0
+        filledCells.reduce(
+          (sum, cell) => sum + Math.pow(cell.species - meanS, 2),
+          0
+        ) / filledCells.length || 0
       );
 
       // Calculate z-scores and other metrics
-      let minZA = Infinity, maxZA = -Infinity;
-      let minZU = Infinity, maxZU = -Infinity;
+      let minZA = Infinity,
+        maxZA = -Infinity;
+      let minZU = Infinity,
+        maxZU = -Infinity;
 
       for (const cell of updatedCellData) {
         if (cell.accessions > 0) {
           cell.zscoreA = stdDevA > 0 ? (cell.accessions - meanA) / stdDevA : 0;
           cell.zscoreF = stdDevF > 0 ? (cell.families - meanF) / stdDevF : 0;
           cell.zscoreS = stdDevS > 0 ? (cell.species - meanS) / stdDevS : 0;
-          cell.diversity = cell.accessions > 0 ? (cell.families + cell.species) / (cell.accessions * 2) : 0;
-          
+          cell.diversity =
+            cell.accessions > 0
+              ? (cell.families + cell.species) / (cell.accessions * 2)
+              : 0;
+
           const avgZscoreU = (cell.zscoreF + cell.zscoreS) / 2;
-          
+
           minZA = Math.min(minZA, cell.zscoreA);
           maxZA = Math.max(maxZA, cell.zscoreA);
           minZU = Math.min(minZU, avgZscoreU);
           maxZU = Math.max(maxZU, avgZscoreU);
-          
+
           cell.rodHeight = 0.1875 + (cell.accessions * 0.1875) / 5;
           cell.blocks = 1 + (cell.families + cell.species) / 10;
         }
@@ -257,8 +305,12 @@ export const ArboretumProvider: React.FC<{ children: ReactNode }> = ({ children 
       for (const cell of updatedCellData) {
         if (cell.accessions > 0) {
           const avgZscoreU = (cell.zscoreF + cell.zscoreS) / 2;
-          cell.percentage = maxZA > minZA ? (100 * (cell.zscoreA - minZA)) / (maxZA - minZA) : 0;
-          cell.percentageU = maxZU > minZU ? (100 * (avgZscoreU - minZU)) / (maxZU - minZU) : 0;
+          cell.percentage =
+            maxZA > minZA
+              ? (100 * (cell.zscoreA - minZA)) / (maxZA - minZA)
+              : 0;
+          cell.percentageU =
+            maxZU > minZU ? (100 * (avgZscoreU - minZU)) / (maxZU - minZU) : 0;
         }
       }
 
@@ -280,29 +332,29 @@ export const ArboretumProvider: React.FC<{ children: ReactNode }> = ({ children 
   }, [shouldIncludeAccession]);
 
   const initializeData = useCallback(async () => {
-    const response = await fetch('/data/accessions.json');
-    const accessions = await response.json() as Accession[];
-    
+    const response = await fetch("/data/accessions.json");
+    const accessions = (await response.json()) as Accession[];
+
     const newCellData: Cell[] = [];
     const newSpecies: string[] = [];
     const newFamilies: string[] = [];
 
     // Extract unique cells, species, and families
     for (const accession of accessions) {
-      if (!newCellData.find(cell => cell.id === accession.cell)) {
+      if (!newCellData.find((cell) => cell.id === accession.cell)) {
         newCellData.push(createEmptyCell(accession.cell));
       }
-      
+
       if (!newFamilies.includes(accession.family)) {
         newFamilies.push(accession.family);
       }
-      
+
       if (!newSpecies.includes(accession.species)) {
         newSpecies.push(accession.species);
       }
     }
 
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       cellData: newCellData,
       families: newFamilies.sort(),
@@ -314,6 +366,7 @@ export const ArboretumProvider: React.FC<{ children: ReactNode }> = ({ children 
   // Initialize data on mount
   useEffect(() => {
     if (!isInitialized.current) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Data initialization is a legitimate use case
       initializeData();
       isInitialized.current = true;
     }
@@ -322,24 +375,25 @@ export const ArboretumProvider: React.FC<{ children: ReactNode }> = ({ children 
   // Recompute data when filter changes
   useEffect(() => {
     if (isInitialized.current) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Data recomputation on filter change is a legitimate use case
       computeData();
     }
   }, [state.filterConfig, computeData]);
 
   const setFilter = (config: FilterConfig) => {
-    setState(prev => ({ ...prev, filterConfig: config }));
+    setState((prev) => ({ ...prev, filterConfig: config }));
   };
 
   const setCompute = (config: ComputeConfig) => {
-    setState(prev => ({ ...prev, computeConfig: config }));
+    setState((prev) => ({ ...prev, computeConfig: config }));
   };
 
   const selectCell = (cell: Cell | null) => {
-    setState(prev => ({ ...prev, selectedCell: cell }));
+    setState((prev) => ({ ...prev, selectedCell: cell }));
   };
 
   const setBlockHeights = (height: string) => {
-    setState(prev => ({ ...prev, blockHeights: height }));
+    setState((prev) => ({ ...prev, blockHeights: height }));
   };
 
   return (

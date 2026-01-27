@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 interface StickyCardProps {
   children: React.ReactNode;
   className?: string;
+  mobileFullWidth?: boolean;
 }
 
 interface StickyCardNavProps {
@@ -16,11 +17,18 @@ interface StickyCardNavProps {
   className?: string;
 }
 
-export function StickyCardMask() {
+export function StickyCardMask({
+  mobileFullWidth,
+}: {
+  mobileFullWidth?: boolean;
+}) {
   return (
     <section
       id="mask"
-      className="sticky top-0 z-10 flex min-h-6 w-[calc(100%)] rounded-md"
+      className={cn(
+        "sticky top-0 z-10 min-h-6 w-[calc(100%)] rounded-md",
+        mobileFullWidth ? "hidden md:flex" : "flex"
+      )}
     >
       <div
         id="cornerLeft"
@@ -44,6 +52,7 @@ export function StickyCardMask() {
 export const StickyCard: React.FC<StickyCardProps> = ({
   children,
   className,
+  mobileFullWidth,
 }) => {
   // Convert children to array and check if we have exactly 2 elements
   const childrenArray = React.Children.toArray(children);
@@ -57,7 +66,10 @@ export const StickyCard: React.FC<StickyCardProps> = ({
   return (
     <div
       className={cn(
-        "bg-bg-card border-bd-card rounded-md border border-t-0 shadow-xs",
+        "bg-bg-card border-bd-card border shadow-xs",
+        mobileFullWidth
+          ? "-mx-4 rounded-none border-x-0 border-t-0 sm:-mx-16 md:mx-0 md:rounded-md md:border-x"
+          : "rounded-md border-t-0",
         className
       )}
     >

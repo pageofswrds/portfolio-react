@@ -11,7 +11,6 @@ export const logger = {
    */
   log: (message: string, ...args: unknown[]) => {
     if (isDevelopment) {
-      // eslint-disable-next-line no-console
       console.log(message, ...args);
     }
   },
@@ -21,7 +20,6 @@ export const logger = {
    */
   warn: (message: string, ...args: unknown[]) => {
     if (isDevelopment) {
-      // eslint-disable-next-line no-console
       console.warn(message, ...args);
     }
   },
@@ -31,7 +29,6 @@ export const logger = {
    * In production, this could be extended to send to error tracking service
    */
   error: (message: string, error?: Error | unknown, ...args: unknown[]) => {
-    // eslint-disable-next-line no-console
     console.error(message, error, ...args);
 
     // In production, you could send to error tracking service like Sentry
@@ -45,7 +42,6 @@ export const logger = {
    */
   debug: (message: string, ...args: unknown[]) => {
     if (isDevelopment) {
-      // eslint-disable-next-line no-console
       console.debug(message, ...args);
     }
   },
