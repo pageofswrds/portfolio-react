@@ -65,7 +65,7 @@ export function Anchor({ id, children, visible = true }: AnchorProps) {
   return (
     <div
       id={id}
-      className="mb-5 scroll-mt-24 rounded bg-bg-secondary px-2 py-2 font-mono text-md text-tx-primary"
+      className="bg-bg-secondary text-md text-tx-primary my-2 scroll-mt-24 rounded px-2 py-2 font-mono"
     >
       # {children}
     </div>
@@ -114,17 +114,17 @@ export function TitleSection(props: TitleSectionProps) {
   return (
     <section className="mb-4 scroll-mt-24" id="overview">
       {frontmatter.title && (
-        <h1 className="text-xl leading-[2.5rem] text-tx-primary">
+        <h1 className="text-tx-primary text-xl leading-[2.5rem]">
           {frontmatter.title}
         </h1>
       )}
       {frontmatter.subtitle && (
-        <h5 className="font-mono text-md text-tx-secondary">
+        <h5 className="text-md text-tx-secondary font-mono">
           {frontmatter.subtitle}
         </h5>
       )}
-      <Separator className="mb-4 mt-4 bg-bd-secondary" />
-      <div className="flex gap-6 font-mono text-xs text-tx-tertiary">
+      <Separator className="bg-bd-secondary mt-4 mb-4" />
+      <div className="text-tx-tertiary flex gap-6 font-mono text-xs">
         {dateString && (
           <div className="flex items-center gap-2">
             <Tooltip>

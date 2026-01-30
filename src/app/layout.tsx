@@ -4,20 +4,36 @@ import { ThemeProvider } from "@/components/theme-context";
 import { WebVitals } from "@/components/WebVitals";
 import "./globals.css";
 
-const louize = localFont({
+const whyte = localFont({
   src: [
     {
-      path: "../fonts/Louize/205TF-Louize-Regular.woff2",
+      path: "../fonts/Whyte/ABCWhyteEdu-Book.otf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../fonts/Louize/205TF-Louize-Italic.woff2",
+      path: "../fonts/Whyte/ABCWhyte-RegularItalic.otf",
       weight: "400",
       style: "italic",
     },
   ],
-  variable: "--font-louize",
+  variable: "--font-whyte",
+});
+
+const whyteInktrap = localFont({
+  src: [
+    {
+      path: "../fonts/WhyteInktrap/ABCWhyteInktrap-Regular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/WhyteInktrap/ABCWhyteInktrap-RegularItalic.otf",
+      weight: "400",
+      style: "italic",
+    },
+  ],
+  variable: "--font-whyte-inktrap",
 });
 
 const fraktion = localFont({
@@ -84,7 +100,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${louize.variable} ${fraktion.variable} ${exposure.variable} ${pressuraMono.variable}`}
+      className={`${whyte.variable} ${whyteInktrap.variable} ${fraktion.variable} ${exposure.variable} ${pressuraMono.variable}`}
       data-theme="forest"
     >
       <head>
