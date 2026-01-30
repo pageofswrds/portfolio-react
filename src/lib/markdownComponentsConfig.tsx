@@ -1,7 +1,7 @@
 import React from "react";
-import Image from "next/image";
 import { shouldSkipOptimization } from "@/lib/imageUtils";
 import { CONTENT } from "@/lib/constants";
+import { ImageLightbox } from "@/components/ui/image-lightbox";
 import {
   HeadingProps,
   ParagraphProps,
@@ -103,7 +103,7 @@ export const createBaseMarkdownComponents = () => ({
     <hr className={markdownComponentStyles.hr} {...props} />
   ),
   img: (props: MarkdownImageProps) => (
-    <Image
+    <ImageLightbox
       className={markdownComponentStyles.img}
       width={props.width ? Number(props.width) : CONTENT.DEFAULT_IMAGE_WIDTH}
       height={
